@@ -1,0 +1,19 @@
+# Required for tempeh
+numpy
+scipy
+pandas
+pytest
+scikit-learn
+tensorflow
+torch
+xgboost
+lightgbm
+
+# Required for environment
+autopep8
+flake8
+
+# Required for test
+# Pin pytest due to VS Code issue
+pytest==5.0.1
+pytest-cov

@@ -18,14 +18,15 @@ setuptools.setup(
     url="https://github.com/romanlutz/tempeh",
     packages=setuptools.find_packages(),
     install_requires=[
+        "keras",
+        "lightgbm",
         "numpy",
-        "scipy",
         "pandas",
         "pytest",
+        "scipy",
         "tensorflow",
         "torch",
-        "xgboost",
-        "lightgbm"
+        "xgboost"
     ],
     classifiers=(
         "Programming Language :: Python :: 3",

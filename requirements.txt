@@ -1,12 +1,13 @@
 # Required for tempeh
+keras
+lightgbm
 numpy
-scipy
 pandas
 scikit-learn
+scipy
 tensorflow
 torch
 xgboost
-lightgbm
 
 # Required for environment
 autopep8

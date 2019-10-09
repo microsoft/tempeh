@@ -11,7 +11,7 @@ from tempeh.models import SVMModelWrapper, LogisticModelWrapper, RidgeModelWrapp
     XGBoostClassifierWrapper, XGBoostRegressorWrapper, LightGBMClassifierWrapper, \
     LightGBMRegressorWrapper, KerasMulticlassClassifierWrapper, KerasBinaryClassifierWrapper, \
     KerasRegressionWrapper
-from constants import DatasetSizes
+from tempeh.constants import DatasetSizes
 
 # datasets dictionary
 datasets = {

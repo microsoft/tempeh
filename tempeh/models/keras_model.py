@@ -5,7 +5,8 @@
 
 import keras
 import numpy as np
-from tensorflow.keras.layers import Activation, Dense, Sequential, Dropout
+from tensorflow.keras.layers import Activation, Dense, Dropout
+from tensorflow.keras.models import Sequential
 
 from .base_model import BaseModelWrapper
 from tempeh.constants import Tasks, DataTypes, Algorithms  # noqa

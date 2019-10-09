@@ -66,7 +66,7 @@ Datasets (located in the `datasets/` directory) encapsulate different datasets u
 #### To add a new one
 
 + Create a python file in the `datasets/` directory with naming convention `[name]_datasets.py`
-+ Subclass `BasePerformanceDatasetWrapper`. The naming convention is `[dataset_name]PerformanceDatasetWrapper` to distinguish the wrappers in the testing framework from the `azureml` wrapper.
++ Subclass `BasePerformanceDatasetWrapper`. The naming convention is `[dataset_name]PerformanceDatasetWrapper`
 + In `__init__` load the dataset and call `super().__init__(data, targets, size)`
 + Add the class to `__init__.py`
 + Make sure the class contains class variables `task`, `data_type`, `size`

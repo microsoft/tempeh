@@ -2,7 +2,7 @@
 # Licensed under the MIT License.
 
 import pytest
-from tempeh.perm_configs import datasets, models
+from tempeh.configurations import datasets, models
 
 
 def test_true():

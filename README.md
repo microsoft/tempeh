@@ -18,7 +18,7 @@ which includes tracking memory usage and run time. This is particularly useful a
 ```python
 import pytest
 from time import time
-from tempeh.perm_configs import datasets, models
+from tempeh.configurations import datasets, models
 
 @pytest.mark.parametrize('Dataset', datasets.values())
 @pytest.mark.parametrize('Model', models.values())
@@ -70,7 +70,7 @@ Datasets (located in the `datasets/` directory) encapsulate different datasets u
 + In `__init__` load the dataset and call `super().__init__(data, targets, size)`
 + Add the class to `__init__.py`
 + Make sure the class contains class variables `task`, `data_type`, `size`
-+ Add an entry to the `datasets` dictionary in `perm_configs.py`.
++ Add an entry to the `datasets` dictionary in `configurations.py`.
 
 ### Models
 
@@ -82,7 +82,7 @@ Models (`models/` directory) wrap different machine learning models.
 + Subclass `BaseModelWrapper` and name the class `[name]ModelWrapper`
 + In `__init__` train the model; we expect format `__init__(self, ...)`
 + Models must contain `tasks` and `algorithm`
-+ Add an entry to the `models` dictionary in `perm_configs.py`.
++ Add an entry to the `models` dictionary in `configurations.py`.
 
 
 ## Maintainers

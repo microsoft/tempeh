@@ -15,7 +15,7 @@ setuptools.setup(
     description="Machine Learning Performance Testing Framework",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/romanlutz/tempeh",
+    url="https://github.com/microsoft/tempeh",
     packages=setuptools.find_packages(),
     install_requires=[
         "keras",

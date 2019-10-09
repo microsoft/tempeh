@@ -3,10 +3,7 @@
 
 """Defines a model class for classification and regression using LightGBM Framework"""
 
-import os
-import sys
-
-# from lightgbm import LGBMRegressor, LGBMClassifier
+from lightgbm import LGBMRegressor, LGBMClassifier
 from .base_model import BaseModelWrapper, ExplainableMixin
 
 from tempeh.constants import ModelParams, Tasks, DataTypes, Algorithms  # noqa

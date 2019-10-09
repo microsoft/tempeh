@@ -2,8 +2,7 @@
 # Licensed under the MIT License.
 
 """Defines a model class for logistic regression."""
-import os
-import sys
+
 import numpy as np
 
 from sklearn.linear_model import LogisticRegression
@@ -59,6 +58,6 @@ class LogisticModelWrapper(BaseModelWrapper, ExplainableMixin):
 
         try:
             mean = np.mean(dataset.X_test.toarray(), axis=0, keepdims=True)
-        except:
+        except:  # noqa: E722
             mean = np.mean(dataset.X_test, axis=0, keepdims=True)
         return np.abs(np.mean(self.model.coef_ * mean, axis=0))

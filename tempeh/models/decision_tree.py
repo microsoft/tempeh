@@ -3,14 +3,10 @@
 
 """Defines a model class for classification using decision trees"""
 
-import os
-import sys
-
 from sklearn.tree import DecisionTreeClassifier
 from .base_model import BaseModelWrapper, ExplainableMixin
 
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), "../"))  # noqa
-from constants import ModelParams, Tasks, DataTypes, Algorithms  # noqa
+from tempeh.constants import ModelParams, Tasks, DataTypes, Algorithms  # noqa
 
 
 class DecisionTreeClassifierWrapper(BaseModelWrapper, ExplainableMixin):

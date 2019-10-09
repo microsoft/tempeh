@@ -7,13 +7,9 @@
 
 import pandas as pd
 import numpy as np
-import sys
-import os
 
 from sklearn.model_selection import train_test_split
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)),
-                                "../perf_utilities"))
-from munge import munge  # noqa
+from tempeh.perf_utilities.munge import munge  # noqa
 
 
 class BasePerformanceDatasetWrapper(object):
@@ -87,5 +83,5 @@ class BasePerformanceDatasetWrapper(object):
 
     def _training_split(self):
         """Creates a training split."""
-        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.dataset, self.targets,
-                                                                                test_size=0.33, random_state=123)
+        self.X_train, self.X_test, self.y_train, self.y_test = \
+            train_test_split(self.dataset, self.targets, test_size=0.33, random_state=123)

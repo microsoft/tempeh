@@ -2,8 +2,7 @@
 # Licensed under the MIT License.
 
 """Defines a model class for random forest classifier."""
-import os
-import sys
+
 from sklearn.ensemble import RandomForestClassifier
 from .base_model import BaseModelWrapper, ExplainableMixin
 

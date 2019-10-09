@@ -1,15 +1,12 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
-import os
-import sys
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import normalize
 from sklearn.neighbors import NearestNeighbors
 
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), "../"))  # noqa
-from constants import FeatureType  # noqa
+from tempeh.constants import FeatureType  # noqa
 
 
 def nn(data_c, data_n, algorithm='auto'):

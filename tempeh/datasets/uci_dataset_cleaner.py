@@ -18,7 +18,8 @@ def data_init(blob_name, file_name):
     :type file_name: str
     """
 
-    urlretrieve("https://petrstoragedwqopnde.blob.core.windows.net/uci-datasets/" + blob_name, file_name)
+    urlretrieve("https://petrstoragedwqopnde.blob.core.windows.net/uci-datasets/" + blob_name,
+                file_name)
     return file_name
 
 
@@ -66,7 +67,8 @@ def bank_data_parser():
 def bank_data_additional_parser():
     """Data set cleaner for additional bank data"""
 
-    full_file_path = data_init("bank_marketing/bank-additional-full.csv", "bank-additional-full.csv")
+    full_file_path = data_init("bank_marketing/bank-additional-full.csv",
+                               "bank-additional-full.csv")
     data = open(full_file_path, "r")
     df = create_df(data, ';')
     categories = ["job", "marital", "education", "default", "housing",

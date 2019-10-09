@@ -3,15 +3,12 @@
 
 """Defines a model class for a Keras DNN"""
 
-import os
-import sys
+import keras
+import numpy as np
+from tensorflow.keras.layers import Activation, Dense, Sequential, Dropout
 
 from .base_model import BaseModelWrapper
-from common_utils import create_keras_classifier, create_keras_multiclass_classifier, \
-    create_keras_regressor
-
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), "../"))  # noqa
-from constants import Tasks, DataTypes, Algorithms  # noqa
+from tempeh.constants import Tasks, DataTypes, Algorithms  # noqa
 
 
 class BaseKerasWrapper(BaseModelWrapper):
@@ -83,3 +80,74 @@ class KerasRegressionWrapper(BaseKerasWrapper):
         """
         model = create_keras_regressor(dataset.X_train, dataset.y_train)
         super().__init__(dataset, model)
+
+
+def create_keras_regressor(X, y):
+    # create simple (dummy) Keras DNN model for regression
+    batch_size = 128
+    epochs = 12
+    model = _common_model_generator(X.shape[1])
+    model.add(Activation('linear'))
+    model.compile(loss=keras.losses.mean_squared_error,
+                  optimizer=keras.optimizers.Adadelta(),
+                  metrics=['accuracy'])
+    model.fit(X, y,
+              batch_size=batch_size,
+              epochs=epochs,
+              verbose=1,
+              validation_data=(X, y))
+    return model
+
+
+def create_keras_classifier(X, y):
+    # create simple (dummy) Keras DNN model for binary classification
+    batch_size = 128
+    epochs = 12
+    model = _common_model_generator(X.shape[1])
+    model.add(Activation('sigmoid'))
+    model.compile(loss=keras.losses.binary_crossentropy,
+                  optimizer=keras.optimizers.Adadelta(),
+                  metrics=['accuracy'])
+    model.fit(X, y,
+              batch_size=batch_size,
+              epochs=epochs,
+              verbose=1,
+              validation_data=(X, y))
+    return model
+
+
+def create_keras_multiclass_classifier(X, y):
+    batch_size = 128
+    epochs = 12
+    num_classes = len(np.unique(y))
+    model = _common_model_generator(X.shape[1], num_classes)
+    model.add(Dense(units=num_classes, activation=Activation('softmax')))
+    model.compile(loss=keras.losses.categorical_crossentropy,
+                  optimizer=keras.optimizers.Adadelta(),
+                  metrics=['accuracy'])
+    y_train = keras.utils.to_categorical(y, num_classes)
+    model.fit(X, y_train,
+              batch_size=batch_size,
+              epochs=epochs,
+              verbose=1,
+              validation_data=(X, y_train))
+    return model
+
+
+def create_dnn_classifier_unfit(feature_number):
+    # create simple (dummy) Keras DNN model for binary classification
+    model = _common_model_generator(feature_number)
+    model.add(Activation('sigmoid'))
+    model.compile(loss=keras.losses.binary_crossentropy,
+                  optimizer=keras.optimizers.Adadelta(),
+                  metrics=['accuracy'])
+    return model
+
+
+def _common_model_generator(feature_number, output_length=1):
+    model = Sequential()
+    model.add(Dense(32, activation='relu', input_shape=(feature_number,)))
+    model.add(Dropout(0.25))
+    model.add(Dense(output_length, activation='relu', input_shape=(32,)))
+    model.add(Dropout(0.5))
+    return model

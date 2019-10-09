@@ -3,10 +3,7 @@
 
 """Defines a model class for classification and regression using XGBoost Framework"""
 
-import os
-import sys
-
-# from xgboost import XGBRegressor, XGBClassifier
+from xgboost import XGBRegressor, XGBClassifier
 from .base_model import BaseModelWrapper, ExplainableMixin
 
 from tempeh.constants import ModelParams, Tasks, DataTypes, Algorithms  # noqa

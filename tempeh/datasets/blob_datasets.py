@@ -3,8 +3,6 @@
 
 """Defines a class for the Blob datasets."""
 import numpy as np
-import sys
-import os
 
 from .base_wrapper import BasePerformanceDatasetWrapper
 

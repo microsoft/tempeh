@@ -3,8 +3,6 @@
 
 """Defines a class for the UCI datasets."""
 import numpy as np
-import sys
-import os
 
 from .base_wrapper import BasePerformanceDatasetWrapper
 
@@ -17,7 +15,8 @@ class UCIPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):
     """UCI Datasets"""
 
     dataset_map = {
-        UCIDatasets.BANK: (bank_data_parser, "y", [FeatureType.CONTINUOUS] * 10 + [FeatureType.NOMINAL] * 39),
+        UCIDatasets.BANK: (bank_data_parser, "y",
+                           [FeatureType.CONTINUOUS] * 10 + [FeatureType.NOMINAL] * 39),
         UCIDatasets.BANK_ADD: (bank_data_additional_parser, "y",
                                [FeatureType.CONTINUOUS] * 10 + [FeatureType.NOMINAL] * 54),
         UCIDatasets.CAR: (car_eval_parser, "CAR", [FeatureType.NOMINAL] * 22)

@@ -2,8 +2,7 @@
 # Licensed under the MIT License.
 
 """Defines a model class for ridge regression"""
-import os
-import sys
+
 import numpy as np
 
 from sklearn.linear_model import Ridge

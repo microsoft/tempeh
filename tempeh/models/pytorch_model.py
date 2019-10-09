@@ -3,9 +3,11 @@
 
 """Defines a model class for a Pytorch DNN"""
 
-import os
-import sys
-# import torch
+import numpy as np
+import pandas as pd
+import torch
+from torch import nn
+import torch.nn.functional as F
 
 from .base_model import BaseModelWrapper
 
@@ -52,20 +54,19 @@ class PytorchMulticlassClassifierWrapper(BasePytorchWrapper):
         self.create_pytorch_multiclass_classifier(X, y)
         super(PytorchMulticlassClassifierWrapper, self).fit(X, y)
 
-
-def create_pytorch_multiclass_classifier(X, y):
-    # Get unique number of classes
-    numClasses = np.unique(y).shape[0]
-    # create simple (dummy) Pytorch DNN model for multiclass classification
-    epochs = 12
-    torch_X = torch.Tensor(X).float()
-    torch_y = torch.Tensor(y).long()
-    # Create network structure
-    net = _common_pytorch_generator(X.shape[1], numClasses=numClasses)
-    # Train the model
-    criterion = nn.CrossEntropyLoss()
-    optimizer = torch.optim.SGD(net.parameters(), lr=0.01)
-    self.model = _train_pytorch_model(epochs, criterion, optimizer, net, torch_X, torch_y)
+    def create_pytorch_multiclass_classifier(self, X, y):
+        # Get unique number of classes
+        numClasses = np.unique(y).shape[0]
+        # create simple (dummy) Pytorch DNN model for multiclass classification
+        epochs = 12
+        torch_X = torch.Tensor(X).float()
+        torch_y = torch.Tensor(y).long()
+        # Create network structure
+        net = _common_pytorch_generator(X.shape[1], numClasses=numClasses)
+        # Train the model
+        criterion = nn.CrossEntropyLoss()
+        optimizer = torch.optim.SGD(net.parameters(), lr=0.01)
+        self.model = _train_pytorch_model(epochs, criterion, optimizer, net, torch_X, torch_y)
 
 
 class PytorchBinaryClassifierWrapper(BasePytorchWrapper):
@@ -122,3 +123,44 @@ class PytorchRegressionWrapper(BasePytorchWrapper):
         criterion = nn.MSELoss()
         optimizer = torch.optim.SGD(net.parameters(), lr=0.0001)
         self.model = _train_pytorch_model(epochs, criterion, optimizer, net, torch_X, torch_y)
+
+
+def _common_pytorch_generator(numCols, numClasses=None):
+    class Net(nn.Module):
+        def __init__(self):
+            super(Net, self).__init__()
+            # Apply layer normalization for stability and perf on wide variety of datasets
+            # https://arxiv.org/pdf/1607.06450.pdf
+            self.norm = nn.LayerNorm(numCols)
+            self.fc1 = nn.Linear(numCols, 100)
+            self.fc2 = nn.Dropout(p=0.2)
+            if numClasses is None:
+                self.fc3 = nn.Linear(100, 3)
+                self.output = nn.Linear(3, 1)
+            elif numClasses == 2:
+                self.fc3 = nn.Linear(100, 2)
+                self.output = nn.Sigmoid()
+            else:
+                self.fc3 = nn.Linear(100, numClasses)
+                self.output = nn.Softmax()
+
+        def forward(self, X):
+            X = self.norm(X)
+            X = F.relu(self.fc1(X))
+            X = self.fc2(X)
+            X = self.fc3(X)
+            X = self.output(X)
+
+            return X
+    return Net()
+
+
+def _train_pytorch_model(epochs, criterion, optimizer, net, torch_X, torch_y):
+    for epoch in range(epochs):
+        optimizer.zero_grad()
+        out = net(torch_X)
+        loss = criterion(out, torch_y)
+        loss.backward()
+        optimizer.step()
+        print('epoch: ', epoch, ' loss: ', loss.data.item())
+    return net

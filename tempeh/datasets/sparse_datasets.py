@@ -11,7 +11,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 def _load_22newsgroups(ngram_len, analyzer, dsname):
     cats = ['alt.atheism', 'sci.space']
-    newsgroups_train = fetch_20newsgroups(subset='train', categories=cats, shuffle=True, random_state=42)
+    newsgroups_train = fetch_20newsgroups(subset='train', categories=cats, shuffle=True,
+                                          random_state=42)
     vectorizer = TfidfVectorizer(ngram_range=(ngram_len, ngram_len), analyzer=analyzer)
     X = vectorizer.fit_transform(newsgroups_train.data)
     y = newsgroups_train.target

@@ -3,9 +3,6 @@
 
 import numpy as np
 import os
-import sys
-
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), "../../../"))  # noqa
 
 
 def sparse_data(inp_file):
@@ -23,9 +20,6 @@ def create_msx_big():
     return sparse_data('msx_transformed_5550.npz')
 
 
-import os
-
-
 def retrieve_dataset(dataset, **kwargs):
     # if data not extracted, download zip and extract
     outdirname = 'datasets.1.17.2019'
@@ -36,7 +30,8 @@ def retrieve_dataset(dataset, **kwargs):
             from urllib.request import urlretrieve
         import zipfile
         zipfilename = outdirname + '.zip'
-        urlretrieve('https://publictestdatasets.blob.core.windows.net/data/' + zipfilename, zipfilename)
+        urlretrieve('https://publictestdatasets.blob.core.windows.net/data/' + zipfilename,
+                    zipfilename)
         with zipfile.ZipFile(zipfilename, 'r') as unzip:
             unzip.extractall('.')
     extension = os.path.splitext(dataset)[1]

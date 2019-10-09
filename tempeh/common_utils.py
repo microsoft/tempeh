@@ -2,7 +2,6 @@
 # Licensed under the MIT License.
 
 # Defines common utilities
-import numpy as np
 import pandas as pd
 from sklearn import svm, ensemble, linear_model
 from sklearn.datasets import load_iris, load_boston
@@ -13,16 +12,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression, LinearRegression
 from sklearn.base import TransformerMixin
-# from lightgbm import LGBMClassifier
-# from xgboost import XGBClassifier
-
-# from tensorflow import keras
-# from tensorflow.keras.models import Sequential
-# from tensorflow.keras.layers import Dense, Dropout, Activation
-
-# import torch
-# import torch.nn as nn
-# import torch.nn.functional as F
+from lightgbm import LGBMClassifier
+from xgboost import XGBClassifier
 
 from pandas import read_csv
 
@@ -127,109 +118,6 @@ def create_sklearn_logistic_regressor(X, y, pipeline=False):
     return model
 
 
-def create_keras_regressor(X, y):
-    # create simple (dummy) Keras DNN model for regression
-    batch_size = 128
-    epochs = 12
-    model = _common_model_generator(X.shape[1])
-    model.add(Activation('linear'))
-    model.compile(loss=keras.losses.mean_squared_error,
-                  optimizer=keras.optimizers.Adadelta(),
-                  metrics=['accuracy'])
-    model.fit(X, y,
-              batch_size=batch_size,
-              epochs=epochs,
-              verbose=1,
-              validation_data=(X, y))
-    return model
-
-
-def _common_pytorch_generator(numCols, numClasses=None):
-    class Net(nn.Module):
-        def __init__(self):
-            super(Net, self).__init__()
-            # Apply layer normalization for stability and perf on wide variety of datasets
-            # https://arxiv.org/pdf/1607.06450.pdf
-            self.norm = nn.LayerNorm(numCols)
-            self.fc1 = nn.Linear(numCols, 100)
-            self.fc2 = nn.Dropout(p=0.2)
-            if numClasses is None:
-                self.fc3 = nn.Linear(100, 3)
-                self.output = nn.Linear(3, 1)
-            elif numClasses == 2:
-                self.fc3 = nn.Linear(100, 2)
-                self.output = nn.Sigmoid()
-            else:
-                self.fc3 = nn.Linear(100, numClasses)
-                self.output = nn.Softmax()
-
-        def forward(self, X):
-            X = self.norm(X)
-            X = F.relu(self.fc1(X))
-            X = self.fc2(X)
-            X = self.fc3(X)
-            X = self.output(X)
-
-            return X
-    return Net()
-
-
-def _train_pytorch_model(epochs, criterion, optimizer, net, torch_X, torch_y):
-    for epoch in range(epochs):
-        optimizer.zero_grad()
-        out = net(torch_X)
-        loss = criterion(out, torch_y)
-        loss.backward()
-        optimizer.step()
-        print('epoch: ', epoch, ' loss: ', loss.data.item())
-    return net
-
-
-def create_keras_classifier(X, y):
-    # create simple (dummy) Keras DNN model for binary classification
-    batch_size = 128
-    epochs = 12
-    model = _common_model_generator(X.shape[1])
-    model.add(Activation('sigmoid'))
-    model.compile(loss=keras.losses.binary_crossentropy,
-                  optimizer=keras.optimizers.Adadelta(),
-                  metrics=['accuracy'])
-    model.fit(X, y,
-              batch_size=batch_size,
-              epochs=epochs,
-              verbose=1,
-              validation_data=(X, y))
-    return model
-
-
-def create_keras_multiclass_classifier(X, y):
-    batch_size = 128
-    epochs = 12
-    num_classes = len(np.unique(y))
-    model = _common_model_generator(X.shape[1], num_classes)
-    model.add(Dense(units=num_classes, activation=Activation('softmax')))
-    model.compile(loss=keras.losses.categorical_crossentropy,
-                  optimizer=keras.optimizers.Adadelta(),
-                  metrics=['accuracy'])
-    y_train = keras.utils.to_categorical(y, num_classes)
-    model.fit(X, y_train,
-              batch_size=batch_size,
-              epochs=epochs,
-              verbose=1,
-              validation_data=(X, y_train))
-    return model
-
-
-def create_dnn_classifier_unfit(feature_number):
-    # create simple (dummy) Keras DNN model for binary classification
-    model = _common_model_generator(feature_number)
-    model.add(Activation('sigmoid'))
-    model.compile(loss=keras.losses.binary_crossentropy,
-                  optimizer=keras.optimizers.Adadelta(),
-                  metrics=['accuracy'])
-    return model
-
-
 def create_iris_data():
     # Import Iris dataset
     iris = load_iris()
@@ -264,7 +152,8 @@ def create_boston_data():
 
 def create_cancer_data():
     # Import cancer dataset
-    cancer = retrieve_dataset('breast-cancer.train.csv', na_values='?').interpolate().astype('int64')
+    cancer = retrieve_dataset('breast-cancer.train.csv', na_values='?') \
+        .interpolate().astype('int64')
     cancer_target = cancer.iloc[:, 0]
     cancer_data = cancer.iloc[:, 1:]
     feature_names = cancer_data.columns.values
@@ -313,12 +202,3 @@ def create_complex_titanic_data():
     y = data['survived']
 
     return train_test_split(X, y, test_size=0.2, random_state=42)
-
-
-def _common_model_generator(feature_number, output_length=1):
-    model = Sequential()
-    model.add(Dense(32, activation='relu', input_shape=(feature_number,)))
-    model.add(Dropout(0.25))
-    model.add(Dense(output_length, activation='relu', input_shape=(32,)))
-    model.add(Dropout(0.5))
-    return model

@@ -119,6 +119,7 @@ class LightGBMParams:
     DART = 'dart'
     GOSS = 'goss'
 
+
 class DatasetConstants(object):
     """Dataset related constants."""
     CATEGORICAL = 'categorical'

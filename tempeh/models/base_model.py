@@ -3,13 +3,9 @@
 
 """Defines a base model class for the performance testing framework."""
 
-import os
-import sys
-
 from abc import abstractmethod
 
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), "../"))  # noqa
-from abstract import ABC  # noqa
+from tempeh.abstract import ABC  # noqa
 
 
 class BaseModelWrapper(object):
@@ -36,7 +32,7 @@ class BaseModelWrapper(object):
 
     def fit(self, X, y):
         self.model.fit(X, y)
-    
+
     def predict(self, X):
         return self.model.predict(X)
 

@@ -1,8 +1,7 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 """Defines a model class for random forest regressor."""
-import os
-import sys
+
 from sklearn.ensemble import RandomForestRegressor
 from .base_model import BaseModelWrapper, ExplainableMixin
 

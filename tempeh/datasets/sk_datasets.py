@@ -3,16 +3,12 @@
 
 """Defines a class for the scikit datasets."""
 
-import sys
-import os
-
 from sklearn import datasets
 from .base_wrapper import BasePerformanceDatasetWrapper
 
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), "../"))  # noqa
-from constants import FeatureType, Tasks, DataTypes, SKLearnDatasets, ClassVars  # noqa
+from tempeh.constants import FeatureType, Tasks, DataTypes, SKLearnDatasets, ClassVars  # noqa
 
-_boston_featuretypes = [FeatureType.CONTINUOUS] * 3 + [FeatureType.NOMINAL] + [FeatureType.CONTINUOUS] * 10
+_boston_featuretypes = [FeatureType.CONTINUOUS] * 3 + [FeatureType.NOMINAL] + [FeatureType.CONTINUOUS] * 10  # noqa: E501
 
 
 class SKLearnPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):
@@ -20,11 +16,11 @@ class SKLearnPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):
 
     dataset_map = {
         SKLearnDatasets.BOSTON: (datasets.load_boston, _boston_featuretypes),
-        SKLearnDatasets.IRIS: (datasets.load_iris, [FeatureType.CONTINUOUS] * 4 + [FeatureType.NOMINAL]),
+        SKLearnDatasets.IRIS: (datasets.load_iris, [FeatureType.CONTINUOUS] * 4 + [FeatureType.NOMINAL]),  # noqa: E501
         SKLearnDatasets.DIABETES: (datasets.load_diabetes, [FeatureType.CONTINUOUS] * 11),
-        SKLearnDatasets.DIGITS: (datasets.load_digits, [FeatureType.CONTINUOUS] * 64 + [FeatureType.NOMINAL]),
-        SKLearnDatasets.WINE: (datasets.load_wine, [FeatureType.CONTINUOUS] * 13 + [FeatureType.NOMINAL]),
-        SKLearnDatasets.CANCER: (datasets.load_breast_cancer, [FeatureType.CONTINUOUS] * 30 + [FeatureType.NOMINAL])
+        SKLearnDatasets.DIGITS: (datasets.load_digits, [FeatureType.CONTINUOUS] * 64 + [FeatureType.NOMINAL]),  # noqa: E501
+        SKLearnDatasets.WINE: (datasets.load_wine, [FeatureType.CONTINUOUS] * 13 + [FeatureType.NOMINAL]),  # noqa: E501
+        SKLearnDatasets.CANCER: (datasets.load_breast_cancer, [FeatureType.CONTINUOUS] * 30 + [FeatureType.NOMINAL])  # noqa: E501
     }
     metadata_map = {
         SKLearnDatasets.BOSTON: (Tasks.REGRESSION, DataTypes.TABULAR, (506, 13)),

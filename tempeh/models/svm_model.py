@@ -3,9 +3,6 @@
 
 """Defines a model class for an SVM"""
 
-import os
-import sys
-
 from sklearn import svm
 from .base_model import BaseModelWrapper
 
@@ -23,7 +20,9 @@ class SVMModelWrapper(BaseModelWrapper):
     def __init__(self):
         """Initializes the base model wrapper.
         """
-        svm_args = {"gamma": 0.001, "C": 100, "probability": True} if self.svm_args is None else self.svm_args
+        svm_args = self.svm_args
+        if svm_args is None:
+            svm_args = {"gamma": 0.001, "C": 100, "probability": True}
         svm_args[ModelParams.RANDOM_STATE] = 777
 
         model = svm.SVC(**svm_args)
@@ -57,4 +56,5 @@ class SVMModelWrapper(BaseModelWrapper):
             limit = (10000, 10000)
             svm_args = {"kernel": "linear", "probability": True}
 
-        return type(svm_type.title() + "SVMModelWrapper", (cls, ), {"limit": limit, "svm_args": svm_args})
+        return type(svm_type.title() + "SVMModelWrapper", (cls, ),
+                    {"limit": limit, "svm_args": svm_args})

@@ -11,7 +11,7 @@ setuptools.setup(
     name=tempeh.__name__,
     version=tempeh.__version__,
     author="Roman Lutz",
-    author_email="romanlutz13@gmail.com",
+    author_email="rolutz@microsoft.com",
     description="Machine Learning Performance Testing Framework",
     long_description=long_description,
     long_description_content_type="text/markdown",

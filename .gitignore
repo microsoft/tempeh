@@ -328,3 +328,18 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+# --------------------------
+# TEMPEH SPECIFIC EXEMPTIONS
+
+# don't add python egg info if pip install -e was used
+**egg-info/*
+
+# ignore data and model files
+*.zip
+*.csv
+*.data
+*.npz
+*.pkl
+*.svmlight
+*.json

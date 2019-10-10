@@ -1,7 +1,9 @@
 parameters:
   name: ''
   vmImage: ''
-  pyVersions: [3.5, 3.6, 3.7]
+  pyVersions: [3.7] # [3.5, 3.6, 3.7]
+  datasets: ["boston_sklearn", "iris_sklearn"]
+  models: ["rbm_svm", "decision_tree_classifier"]
 
 jobs:
 - job: ${{ parameters.name }}
@@ -11,8 +13,13 @@ jobs:
     maxParallel: 2
     matrix:
       ${{ each pyVer in parameters.pyVersions }}:
-        ${{ pyVer }}:
-          PyVer: ${{ pyVer }}
+        ${{ each dataset in parameters.datasets }}:
+          ${{ each model in parameters.models }}:
+            "${{ pyVer }} ${{ dataset }} ${{ model }}":
+              PyVer: ${{ pyVer }}
+              TEST_DATASET: ${{ dataset }}
+              TEST_MODEL: ${{ model }}
+              
 
   steps:
   - task: UsePythonVersion@0
@@ -27,7 +34,7 @@ jobs:
   - script: flake8 .
     displayName: "Run flake8"
 
-  - script: python -m pytest tests/ --junitxml=./TEST--TEST.xml -o junit_suite_name="$(Agent.JobName)"
+  - script: python -m pytest -s tests/ --junitxml=./TEST--TEST.xml -o junit_suite_name="$(Agent.JobName)"
     displayName: 'Run tests'
 
   - task: PublishTestResults@2

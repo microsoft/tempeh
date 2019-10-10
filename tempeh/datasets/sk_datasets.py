@@ -8,14 +8,12 @@ from .base_wrapper import BasePerformanceDatasetWrapper
 
 from tempeh.constants import FeatureType, Tasks, DataTypes, SKLearnDatasets, ClassVars  # noqa
 
-_boston_featuretypes = [FeatureType.CONTINUOUS] * 3 + [FeatureType.NOMINAL] + [FeatureType.CONTINUOUS] * 10  # noqa: E501
-
 
 class SKLearnPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):
     """sklearn Datasets"""
 
     dataset_map = {
-        SKLearnDatasets.BOSTON: (datasets.load_boston, _boston_featuretypes),
+        SKLearnDatasets.BOSTON: (datasets.load_boston, [FeatureType.CONTINUOUS] * 3 + [FeatureType.NOMINAL] + [FeatureType.CONTINUOUS] * 10),  # noqa: E501
         SKLearnDatasets.IRIS: (datasets.load_iris, [FeatureType.CONTINUOUS] * 4 + [FeatureType.NOMINAL]),  # noqa: E501
         SKLearnDatasets.DIABETES: (datasets.load_diabetes, [FeatureType.CONTINUOUS] * 11),
         SKLearnDatasets.DIGITS: (datasets.load_digits, [FeatureType.CONTINUOUS] * 64 + [FeatureType.NOMINAL]),  # noqa: E501

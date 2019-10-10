@@ -2,15 +2,11 @@
 # Licensed under the MIT License.
 
 import pytest
-from tempeh.configurations import datasets, models
+from .conftest import get_selected_datasets, get_selected_models
 
 
-def test_true():
-    assert True
-
-
-@pytest.mark.parametrize('Dataset', datasets.values())
-@pytest.mark.parametrize('Model', models.values())
+@pytest.mark.parametrize('Dataset', get_selected_datasets())
+@pytest.mark.parametrize('Model', get_selected_models())
 def test_fit_predict(Dataset, Model):
     dataset = Dataset()
     model = Model()

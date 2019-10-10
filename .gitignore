@@ -343,3 +343,7 @@ ASALocalRun/
 *.pkl
 *.svmlight
 *.json
+
+# ignore build and dist directories which are used to publish to pypi
+/build/*
+/dist/*

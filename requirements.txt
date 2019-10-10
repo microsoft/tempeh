@@ -6,7 +6,7 @@ pandas
 scikit-learn
 scipy
 tensorflow
-torch==1.2.0+cpu
+-f https://download.pytorch.org/whl/torch_stable.html torch==1.2.0+cpu
 xgboost
 
 # Required for environment

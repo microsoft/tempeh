@@ -24,6 +24,8 @@ setuptools.setup(
         "pandas",
         "pytest",
         "scipy",
+        "shap",
+        "scikit-learn"
         "tensorflow",
         "torch",
         "xgboost"

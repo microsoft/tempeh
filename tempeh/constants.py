@@ -96,6 +96,7 @@ class UCIDatasets:
     CAR = 'car-eval'
     BANK = 'bank'
     BANK_ADD = 'bank-additional'
+    ADULT = 'adult'
 
 
 class BlobDatasets:

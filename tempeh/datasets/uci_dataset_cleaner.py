@@ -2,6 +2,8 @@
 # Licensed under the MIT License.
 
 import pandas as pd
+# TODO: remove shap dependency
+import shap
 
 try:
     from urllib import urlretrieve
@@ -91,3 +93,9 @@ def car_eval_parser():
     df["CAR"] = df["CAR"].astype("category")
     df["CAR"] = df["CAR"].cat.codes
     return df
+
+
+def adult_data_parser():
+    adult_dataset = shap.datasets.adult()
+    # hack to put target column into the same dataframe
+    return pd.concat((adult_dataset[0], pd.DataFrame(adult_dataset[1], columns=["y"])), axis=1)

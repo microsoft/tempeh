@@ -5,6 +5,7 @@ numpy
 pandas
 scikit-learn
 scipy
+shap
 tensorflow
 -f https://download.pytorch.org/whl/torch_stable.html
 torch==1.2.0+cpu

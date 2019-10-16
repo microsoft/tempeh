@@ -5,9 +5,8 @@
 import numpy as np
 
 from .base_wrapper import BasePerformanceDatasetWrapper
-
-from .uci_dataset_cleaner import bank_data_parser, bank_data_additional_parser, car_eval_parser
-
+from .uci_dataset_cleaner import bank_data_parser, bank_data_additional_parser, car_eval_parser, \
+    adult_data_parser
 from tempeh.constants import FeatureType, Tasks, DataTypes, UCIDatasets, ClassVars  # noqa
 
 
@@ -19,13 +18,17 @@ class UCIPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):
                            [FeatureType.CONTINUOUS] * 10 + [FeatureType.NOMINAL] * 39),
         UCIDatasets.BANK_ADD: (bank_data_additional_parser, "y",
                                [FeatureType.CONTINUOUS] * 10 + [FeatureType.NOMINAL] * 54),
-        UCIDatasets.CAR: (car_eval_parser, "CAR", [FeatureType.NOMINAL] * 22)
+        UCIDatasets.CAR: (car_eval_parser, "CAR", [FeatureType.NOMINAL] * 22),
+        UCIDatasets.ADULT: (adult_data_parser, "y", [FeatureType.CONTINUOUS] +
+                            [FeatureType.NOMINAL] * 7 + [FeatureType.CONTINUOUS] * 3 +
+                            [FeatureType.NOMINAL]),
     }
 
     metadata_map = {
         UCIDatasets.BANK: (Tasks.BINARY, DataTypes.TABULAR, (45211, 48)),
         UCIDatasets.BANK_ADD: (Tasks.BINARY, DataTypes.TABULAR, (41188, 63)),
-        UCIDatasets.CAR: (Tasks.MULTICLASS, DataTypes.TABULAR, (1728, 21))
+        UCIDatasets.CAR: (Tasks.MULTICLASS, DataTypes.TABULAR, (1728, 21)),
+        UCIDatasets.ADULT: (Tasks.BINARY, DataTypes.TABULAR, (32561, 13)),
     }
 
     load_function = None

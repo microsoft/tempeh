@@ -25,7 +25,7 @@ setuptools.setup(
         "pytest",
         "scipy",
         "shap",
-        "scikit-learn"
+        "scikit-learn",
         "tensorflow",
         "torch",
         "xgboost"

@@ -14,13 +14,12 @@ class SVMModelWrapper(BaseModelWrapper):
 
     tasks = [Tasks.BINARY, Tasks.MULTICLASS]
     algorithm = Algorithms.SVM
-    limit = None
-    svm_args = None
 
-    def __init__(self):
+    def __init__(self, limit=None, svm_args=None):
         """Initializes the base model wrapper.
         """
-        svm_args = self.svm_args
+        self.limit = limit
+        self.svm_args = svm_args
         if svm_args is None:
             svm_args = {"gamma": 0.001, "C": 100, "probability": True}
         svm_args[ModelParams.RANDOM_STATE] = 777
@@ -30,7 +29,7 @@ class SVMModelWrapper(BaseModelWrapper):
         super().__init__(model)
 
     @classmethod
-    def compatible_with_dataset(cls, dataset):
+    def _compatible_with_dataset(cls, dataset):
         """Checks if the model is compatible with the dataset
         :param dataset: the dataset
         :type dataset: BaseDatasetWrapper
@@ -40,21 +39,22 @@ class SVMModelWrapper(BaseModelWrapper):
             (cls.limit is None or all((cls.limit[i] is None or cls.limit[i] > dataset.size[i]
                                        for i in range(len(dataset.size)))))
 
+
+class RBMSVMModelWrapper(SVMModelWrapper):
+    def __init__(self):
+        super().__init__(limit=(5000, 10000), svm_args=None)
+    
     @classmethod
-    def generate_model_class(cls, svm_type):
-        """Generates an SVM model class.
-        :param svm_type: rbm or linear
-        :type svm_type: str
-        :rtype: cls
+    def _compatible_with_dataset(cls, dataset):
+        """Checks if the model is compatible with the dataset
+        :param dataset: the dataset
+        :type dataset: BaseDatasetWrapper
+        :rtype: bool
         """
-        limit = None
-        svm_args = None
+        return super()._compatible_with_dataset()
 
-        if svm_type == "rbm":
-            limit = (5000, 10000)
-        elif svm_type == "linear":
-            limit = (10000, 10000)
-            svm_args = {"kernel": "linear", "probability": True}
 
-        return type(svm_type.title() + "SVMModelWrapper", (cls, ),
-                    {"limit": limit, "svm_args": svm_args})
+class LinearSVMModelWrapper(SVMModelWrapper):
+    def __init__(self):
+        super().__init__(limit=(10000, 10000),
+                         svm_args={"kernel": "linear", "probability": True})

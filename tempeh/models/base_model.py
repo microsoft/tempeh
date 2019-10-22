@@ -30,7 +30,7 @@ class BaseModelWrapper(object):
         """
         return True
 
-    def fit(self, X, y):
+    def fit(self, X, y, sample_weight=None):
         self.model.fit(X, y)
 
     def predict(self, X):

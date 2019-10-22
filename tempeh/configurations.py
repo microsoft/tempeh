@@ -5,12 +5,12 @@
 
 from tempeh.datasets import SKLearnPerformanceDatasetWrapper, UCIPerformanceDatasetWrapper, \
     BlobPerformanceDatasetWrapper
-from tempeh.models import SVMModelWrapper, LogisticModelWrapper, RidgeModelWrapper, \
-    DecisionTreeClassifierWrapper, RandomForestClassifierWrapper, RandomForestRegressorWrapper, \
-    PytorchMulticlassClassifierWrapper, PytorchBinaryClassifierWrapper, PytorchRegressionWrapper, \
-    XGBoostClassifierWrapper, XGBoostRegressorWrapper, LightGBMClassifierWrapper, \
-    LightGBMRegressorWrapper, KerasMulticlassClassifierWrapper, KerasBinaryClassifierWrapper, \
-    KerasRegressionWrapper
+from tempeh.models import RBMSVMModelWrapper, LinearSVMModelWrapper, LogisticModelWrapper, \
+    RidgeModelWrapper, DecisionTreeClassifierWrapper, RandomForestClassifierWrapper, \
+    RandomForestRegressorWrapper, PytorchMulticlassClassifierWrapper, \
+    PytorchBinaryClassifierWrapper, PytorchRegressionWrapper, XGBoostClassifierWrapper, \
+    XGBoostRegressorWrapper, LightGBMClassifierWrapper, LightGBMRegressorWrapper, \
+    KerasMulticlassClassifierWrapper, KerasBinaryClassifierWrapper, KerasRegressionWrapper
 from tempeh.constants import DatasetSizes
 
 # datasets dictionary
@@ -43,8 +43,8 @@ datasets = {
 
 # models dictionary
 models = {
-    'rbm_svm': SVMModelWrapper.generate_model_class('rbm'),
-    'linear_svm': SVMModelWrapper.generate_model_class('linear'),
+    'rbm_svm': RBMSVMModelWrapper,
+    'linear_svm': LinearSVMModelWrapper,
     'logistic': LogisticModelWrapper,
     'ridge': RidgeModelWrapper,
     'decision_tree_classifier': DecisionTreeClassifierWrapper,

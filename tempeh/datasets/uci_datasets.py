@@ -36,7 +36,7 @@ class UCIPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):
     target_col = None
 
     def __init__(self):
-        """Initializes the uci dataset """
+        """Initializes the UCI dataset """
 
         bunch = type(self).load_function()
         target = bunch[self.target_col].astype(int)

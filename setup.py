@@ -20,6 +20,7 @@ setuptools.setup(
     install_requires=[
         "keras",
         "lightgbm",
+        "memory_profiler",
         "numpy",
         "pandas",
         "pytest",

@@ -15,8 +15,8 @@ from .lightgbm_model import LightGBMClassifierWrapper, LightGBMRegressorWrapper
 from .keras_model import KerasMulticlassClassifierWrapper, \
     KerasBinaryClassifierWrapper, KerasRegressionWrapper
 
-__all__ = ['SVMModelWrapper', 'LogisticModelWrapper', 'RidgeModelWrapper',
-           'DecisionTreeClassifierWrapper', 'ExplainableMixin',
+__all__ = ['RBMSVMModelWrapper', 'LinearSVMModelWrapper', 'LogisticModelWrapper',
+           'RidgeModelWrapper', 'DecisionTreeClassifierWrapper', 'ExplainableMixin',
            'RandomForestClassifierWrapper', 'RandomForestRegressorWrapper',
            'PytorchMulticlassClassifierWrapper', 'PytorchBinaryClassifierWrapper',
            'PytorchRegressionWrapper', 'XGBoostClassifierWrapper',

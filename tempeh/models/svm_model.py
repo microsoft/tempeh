@@ -35,7 +35,7 @@ class SVMModelWrapper(BaseModelWrapper):
         """
         return dataset.task in cls.tasks and dataset.data_type == DataTypes.TABULAR and \
             (limit is None or all((limit[i] is None or limit[i] > dataset.size[i]
-                for i in range(len(dataset.size)))))
+                                   for i in range(len(dataset.size)))))
 
 
 class RBMSVMModelWrapper(SVMModelWrapper):
@@ -63,7 +63,7 @@ class LinearSVMModelWrapper(SVMModelWrapper):
     }
 
     def __init__(self):
-        super().__init__(svm_args=cls.svm_args)
+        super().__init__(svm_args=LinearSVMModelWrapper.svm_args)
 
     @classmethod
     def compatible_with_dataset(cls, dataset):

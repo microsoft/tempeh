@@ -3,10 +3,17 @@
 
 """Defines a model class for a Keras DNN"""
 
-import keras
 import numpy as np
-from tensorflow.keras.layers import Activation, Dense, Dropout
-from tensorflow.keras.models import Sequential
+
+try:
+    import keras
+    from tensorflow.keras.layers import Activation, Dense, Dropout
+    from tensorflow.keras.models import Sequential
+except ModuleNotFoundError:
+    print("No modules named 'keras' and 'tensorflow'. "
+          "If you want to use keras and tensorflow with tempeh "
+          "please install keras and tensorflow separately first.")
+
 
 from .base_model import BaseModelWrapper
 from tempeh.constants import Tasks, DataTypes, Algorithms  # noqa

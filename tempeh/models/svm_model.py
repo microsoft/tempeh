@@ -15,11 +15,9 @@ class SVMModelWrapper(BaseModelWrapper):
     tasks = [Tasks.BINARY, Tasks.MULTICLASS]
     algorithm = Algorithms.SVM
 
-    def __init__(self, limit=None, svm_args=None):
+    def __init__(self, svm_args=None):
         """Initializes the base model wrapper.
         """
-        self.limit = limit
-        self.svm_args = svm_args
         if svm_args is None:
             svm_args = {"gamma": 0.001, "C": 100, "probability": True}
         svm_args[ModelParams.RANDOM_STATE] = 777
@@ -29,32 +27,49 @@ class SVMModelWrapper(BaseModelWrapper):
         super().__init__(model)
 
     @classmethod
-    def _compatible_with_dataset(cls, dataset):
+    def _compatible_with_dataset(cls, dataset, limit, svm_args):
         """Checks if the model is compatible with the dataset
         :param dataset: the dataset
         :type dataset: BaseDatasetWrapper
         :rtype: bool
         """
         return dataset.task in cls.tasks and dataset.data_type == DataTypes.TABULAR and \
-            (cls.limit is None or all((cls.limit[i] is None or cls.limit[i] > dataset.size[i]
-                                       for i in range(len(dataset.size)))))
+            (limit is None or all((limit[i] is None or limit[i] > dataset.size[i]
+                                   for i in range(len(dataset.size)))))
 
 
 class RBMSVMModelWrapper(SVMModelWrapper):
+    limit = (5000, 10000)
+    svm_args = None
+
     def __init__(self):
-        super().__init__(limit=(5000, 10000), svm_args=None)
+        super().__init__()
 
     @classmethod
-    def _compatible_with_dataset(cls, dataset):
+    def compatible_with_dataset(cls, dataset):
         """Checks if the model is compatible with the dataset
         :param dataset: the dataset
         :type dataset: BaseDatasetWrapper
         :rtype: bool
         """
-        return super()._compatible_with_dataset()
+        return SVMModelWrapper._compatible_with_dataset(dataset, cls.limit, cls.svm_args)
 
 
 class LinearSVMModelWrapper(SVMModelWrapper):
+    limit = (10000, 10000)
+    svm_args = {
+        "kernel": "linear",
+        "probability": True
+    }
+
     def __init__(self):
-        super().__init__(limit=(10000, 10000),
-                         svm_args={"kernel": "linear", "probability": True})
+        super().__init__(svm_args=LinearSVMModelWrapper.svm_args)
+
+    @classmethod
+    def compatible_with_dataset(cls, dataset):
+        """Checks if the model is compatible with the dataset
+        :param dataset: the dataset
+        :type dataset: BaseDatasetWrapper
+        :rtype: bool
+        """
+        return SVMModelWrapper._compatible_with_dataset(dataset, cls.limit, cls.svm_args)

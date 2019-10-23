@@ -18,7 +18,6 @@ setuptools.setup(
     url="https://github.com/microsoft/tempeh",
     packages=setuptools.find_packages(),
     install_requires=[
-        "keras",
         "lightgbm",
         "memory_profiler",
         "numpy",
@@ -27,8 +26,6 @@ setuptools.setup(
         "scipy",
         "shap",
         "scikit-learn",
-        "tensorflow",
-        "torch",
         "xgboost"
     ],
     classifiers=(

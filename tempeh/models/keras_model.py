@@ -10,7 +10,9 @@ try:
     from tensorflow.keras.layers import Activation, Dense, Dropout
     from tensorflow.keras.models import Sequential
 except ModuleNotFoundError:
-    print("No modules named 'keras' and 'tensorflow'. If you want to use keras and tensorflow with tempeh please install keras and tensorflow separately first.")
+    print("No modules named 'keras' and 'tensorflow'. "
+          "If you want to use keras and tensorflow with tempeh "
+          "please install keras and tensorflow separately first.")
 
 
 from .base_model import BaseModelWrapper

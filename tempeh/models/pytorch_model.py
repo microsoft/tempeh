@@ -5,9 +5,13 @@
 
 import numpy as np
 import pandas as pd
-import torch
-from torch import nn
-import torch.nn.functional as F
+
+try:
+    import torch
+    from torch import nn
+    import torch.nn.functional as F
+except ModuleNotFoundError:
+    print("No module named 'torch'. If you want to use pytorch with tempeh please install pytorch separately first.")
 
 from .base_model import BaseModelWrapper
 

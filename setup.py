@@ -27,8 +27,6 @@ setuptools.setup(
         "scipy",
         "shap",
         "scikit-learn",
-        "tensorflow",
-        "torch",
         "xgboost"
     ],
     classifiers=(

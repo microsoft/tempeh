@@ -104,6 +104,10 @@ class BlobDatasets:
     MSX_BIG = 'msx_big'
 
 
+class CompasDatasets:
+    COMPAS = "compas"
+
+
 class DatasetSizes:
     MEDIUM = 750000
     BIG = 1500000

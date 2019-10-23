@@ -4,7 +4,9 @@
 from .sk_datasets import SKLearnPerformanceDatasetWrapper
 from .uci_datasets import UCIPerformanceDatasetWrapper
 from .blob_datasets import BlobPerformanceDatasetWrapper
+from .compas_datasets import CompasPerformanceDatasetWrapper
 
 __all__ = ["SKLearnPerformanceDatasetWrapper",
            "UCIPerformanceDatasetWrapper",
-           "BlobPerformanceDatasetWrapper"]
+           "BlobPerformanceDatasetWrapper",
+           "CompasPerformanceDatasetWrapper"]

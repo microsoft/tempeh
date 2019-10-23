@@ -43,7 +43,7 @@ class SVMModelWrapper(BaseModelWrapper):
 class RBMSVMModelWrapper(SVMModelWrapper):
     def __init__(self):
         super().__init__(limit=(5000, 10000), svm_args=None)
-    
+
     @classmethod
     def _compatible_with_dataset(cls, dataset):
         """Checks if the model is compatible with the dataset

@@ -10,8 +10,9 @@ from tempeh.constants import FeatureType, Tasks, DataTypes, ClassVars, CompasDat
 
 
 def compas_data_loader():
-    data = pd.read_csv("https://raw.githubusercontent.com/propublica/compas-analysis/master/compas-scores-two-years.csv")
-    # filter similar to https://github.com/propublica/compas-analysis/blob/master/Compas%20Analysis.ipynb
+    data = pd.read_csv("https://raw.githubusercontent.com/propublica/compas-analysis/master/compas-scores-two-years.csv")  # noqa: E501
+    # filter similar to
+    # https://github.com/propublica/compas-analysis/blob/master/Compas%20Analysis.ipynb
     data = data[(data['days_b_screening_arrest'] <= 30) &
                 (data['days_b_screening_arrest'] >= -30) &
                 (data['is_recid'] != -1) &
@@ -77,7 +78,7 @@ class CompasPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):
         bunch = bunch.astype(float)
 
         super().__init__(bunch, target, nrows=self.size[0], data_t=self.feature_type)
-        
+
         self.features = list(bunch)
 
         if drop_race:

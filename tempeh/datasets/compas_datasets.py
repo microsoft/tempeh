@@ -10,6 +10,13 @@ from tempeh.constants import FeatureType, Tasks, DataTypes, ClassVars, CompasDat
 
 
 def compas_data_loader():
+    """ Downloads COMPAS data from the propublica GitHub repository.
+
+    :return: pandas.DataFrame with columns 'sex', 'age', 'juv_fel_count', 'juv_misd_count',
+       'juv_other_count', 'priors_count', 'two_year_recid', 'age_cat_25 - 45',
+       'age_cat_Greater than 45', 'age_cat_Less than 25', 'race_African-American',
+       'race_Caucasian', 'c_charge_degree_F', 'c_charge_degree_M'
+    """
     data = pd.read_csv("https://raw.githubusercontent.com/propublica/compas-analysis/master/compas-scores-two-years.csv")  # noqa: E501
     # filter similar to
     # https://github.com/propublica/compas-analysis/blob/master/Compas%20Analysis.ipynb
@@ -18,11 +25,12 @@ def compas_data_loader():
                 (data['is_recid'] != -1) &
                 (data['c_charge_degree'] != "O") &
                 (data['score_text'] != "N/A")]
-    # select relevant columns for machine learning
-    data = data[["sex", "age", "race", "juv_fel_count", "decile_score", "juv_misd_count",
-                 "juv_other_count", "priors_count", "c_charge_degree", "is_recid",
-                 "r_charge_degree", "is_violent_recid", "vr_charge_degree", "decile_score.1",
-                 "v_decile_score", "priors_count.1", "two_year_recid"]]
+    # filter out all records except the ones with the most common two races
+    data = data[(data['race'] == 'African-American') | (data['race'] == 'Caucasian')]
+    # Select relevant columns for machine learning.
+    # We explicitly leave in age_cat to allow linear classifiers to be non-linear in age
+    data = data[["sex", "age", "age_cat", "race", "juv_fel_count", "juv_misd_count",
+                 "juv_other_count", "priors_count", "c_charge_degree", "two_year_recid"]]
     # map string representation of feature "sex" to 0 for Female and 1 for Male
     data = data.assign(sex=(data["sex"] == "Male") * 1)
     data = pd.get_dummies(data)
@@ -32,22 +40,10 @@ def compas_data_loader():
 def recover_categorical_encoding_for_compas_race(data):
     return list(map(lambda tuple: "".join(list(tuple)), zip(
         [
-            "African-American" if is_column_12_true else "" for is_column_12_true in data[:, 12]
+            "African-American" if is_column_true else "" for is_column_true in data[:, 9]
         ],
         [
-            "Asian" if is_column_13_true else "" for is_column_13_true in data[:, 13]
-        ],
-        [
-            "Caucasian" if is_column_14_true else "" for is_column_14_true in data[:, 14]
-        ],
-        [
-            "Hispanic" if is_column_15_true else "" for is_column_15_true in data[:, 15]
-        ],
-        [
-            "Native American" if is_column_16_true else "" for is_column_16_true in data[:, 16]
-        ],
-        [
-            "Other" if is_column_17_true else "" for is_column_17_true in data[:, 17]
+            "Caucasian" if is_column_true else "" for is_column_true in data[:, 10]
         ])))
 
 
@@ -56,13 +52,12 @@ class CompasPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):
 
     dataset_map = {
         CompasDatasets.COMPAS: (compas_data_loader, "two_year_recid",
-                                [FeatureType.NOMINAL] + [FeatureType.CONTINUOUS] * 6 +
-                                [FeatureType.NOMINAL] * 2 + [FeatureType.CONTINUOUS] * 3 +
-                                [FeatureType.NOMINAL] * 28)
+                                [FeatureType.NOMINAL] + [FeatureType.CONTINUOUS] * 5 +
+                                [FeatureType.NOMINAL] * 8)
     }
 
     metadata_map = {
-        CompasDatasets.COMPAS: (Tasks.BINARY, DataTypes.TABULAR, (6172, 39))
+        CompasDatasets.COMPAS: (Tasks.BINARY, DataTypes.TABULAR, (6172, 14))
     }
 
     load_function = None
@@ -85,10 +80,10 @@ class CompasPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):
             self.race_train = recover_categorical_encoding_for_compas_race(self.X_train)
             self.race_test = recover_categorical_encoding_for_compas_race(self.X_test)
 
-            # race is in columns 13-19 because the super class constructor removes the target
-            self.X_train = np.delete(self.X_train, np.s_[12:18], axis=1)
-            self.X_test = np.delete(self.X_test, np.s_[12:18], axis=1)
-            del[self.features[12:18]]
+            # race is in columns 9-10 because the super class constructor removes the target
+            self.X_train = np.delete(self.X_train, np.s_[9:11], axis=1)
+            self.X_test = np.delete(self.X_test, np.s_[9:11], axis=1)
+            del[self.features[9:11]]
 
         if drop_sex:
             self.sex_train = self.X_train[:, 0]

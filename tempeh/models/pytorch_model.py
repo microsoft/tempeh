@@ -10,7 +10,7 @@ try:
     import torch
     from torch import nn
     import torch.nn.functional as F
-except ModuleNotFoundError:
+except ImportError:
     print("No module named 'torch'. If you want to use pytorch with tempeh "
           "please install pytorch separately first.")
 

@@ -9,7 +9,7 @@ try:
     import keras
     from tensorflow.keras.layers import Activation, Dense, Dropout
     from tensorflow.keras.models import Sequential
-except ModuleNotFoundError:
+except ImportError:
     print("No modules named 'keras' and 'tensorflow'. "
           "If you want to use keras and tensorflow with tempeh "
           "please install keras and tensorflow separately first.")

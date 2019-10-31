@@ -1,7 +1,7 @@
 parameters:
   name: ''
   vmImage: ''
-  pyVersions: [3.7] # [3.5, 3.6, 3.7]
+  pyVersions: [3.5, 3.6, 3.7]
   datasets: ["boston_sklearn", "iris_sklearn", "adult_uci"]
   models: ["rbm_svm", "decision_tree_classifier"]
 

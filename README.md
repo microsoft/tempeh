@@ -1,4 +1,4 @@
-[![Build Status](https://img.shields.io/azure-devops/build/responsibleai/tempeh/19/master?failed_label=bad&passed_label=good&label=GatedCheckin%3ADev)](https://dev.azure.com/responsibleai/tempeh/_build/latest?definitionId=19&branchName=master) ![MIT license](https://img.shields.io/badge/License-MIT-blue.svg) ![pypi badge](https://img.shields.io/badge/pypi-0.1.6-blue)
+[![Build Status](https://img.shields.io/azure-devops/build/responsibleai/tempeh/19/master?failed_label=bad&passed_label=good&label=GatedCheckin%3ADev)](https://dev.azure.com/responsibleai/tempeh/_build/latest?definitionId=19&branchName=master) ![MIT license](https://img.shields.io/badge/License-MIT-blue.svg) ![pypi badge](https://img.shields.io/pypi/v/tempeh?color=blue)
 
 
 # tempeh

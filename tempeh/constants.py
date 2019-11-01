@@ -108,6 +108,10 @@ class CompasDatasets:
     COMPAS = "compas"
 
 
+class SEAPHEDatasets:
+    LAWSCHOOL_PASSBAR = "lawschool_passbar"
+
+
 class DatasetSizes:
     MEDIUM = 750000
     BIG = 1500000

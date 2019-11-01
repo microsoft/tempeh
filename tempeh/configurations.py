@@ -4,7 +4,8 @@
 """Holds all the datasets and models that are automatically enqueued."""
 
 from tempeh.datasets import SKLearnPerformanceDatasetWrapper, UCIPerformanceDatasetWrapper, \
-    BlobPerformanceDatasetWrapper, CompasPerformanceDatasetWrapper
+    BlobPerformanceDatasetWrapper, CompasPerformanceDatasetWrapper, \
+    SEAPHEPerformanceDatasetWrapper
 from tempeh.models import RBMSVMModelWrapper, LinearSVMModelWrapper, LogisticModelWrapper, \
     RidgeModelWrapper, DecisionTreeClassifierWrapper, RandomForestClassifierWrapper, \
     RandomForestRegressorWrapper, PytorchMulticlassClassifierWrapper, \
@@ -40,6 +41,7 @@ datasets = {
     'giant_wine': SKLearnPerformanceDatasetWrapper.generate_dataset_class('wine', nrows=DatasetSizes.GIANT),
     'giant_boston': SKLearnPerformanceDatasetWrapper.generate_dataset_class('boston', nrows=DatasetSizes.GIANT),
     'compas': CompasPerformanceDatasetWrapper.generate_dataset_class('compas'),
+    'lawschool_passbar': SEAPHEPerformanceDatasetWrapper.generate_dataset_class('lawschool_passbar')
 }
 
 # models dictionary

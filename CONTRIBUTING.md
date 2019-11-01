@@ -26,12 +26,18 @@ For every pull request to `master` with automated tests you can check the logs o
 # Publishing to Pypi
 
 Make sure to run
+
 ```
 git clean -xdf
 ```
+
 before running the commands below or you might run into issues with reuploading an existing version.
 
+Then update the version in `tempeh/__init__.py`, create a commit and when it's merged into `master` run the following with that same commit
+
 ```
+git tag <version tag>
+git push --tags
 python setup.py sdist bdist_wheel
 python -m twine upload  dist/* --verbose
 ```

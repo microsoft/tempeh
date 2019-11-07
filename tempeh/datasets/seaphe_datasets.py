@@ -19,7 +19,7 @@ def lawschool_data_loader():
     """ Downloads SEAPHE lawschool data from the SEAPHE webpage.
     For more information refer to http://www.seaphe.org/databases.php
 
-    :return: pandas.DataFrame with columns 
+    :return: pandas.DataFrame with columns
     """
     with tempfile.TemporaryDirectory() as temp_dir:
         response = requests.get("http://www.seaphe.org/databases/LSAC/LSAC_SAS.zip")
@@ -44,7 +44,7 @@ def lawschool_data_loader():
 
         # drop NaN records for pass_bar and features
         data = data[(data['pass_bar'] == 1) | (data['pass_bar'] == 0)]
-        data = data[(np.isnan(data["lsat"]) != True) & (np.isnan(data['ugpa']) != True)]
+        data = data[np.isfinite(data["lsat"]) & np.isfinite(data['ugpa'])]
 
         # Select relevant columns for machine learning.
         # We explicitly leave in age_cat to allow linear classifiers to be non-linear in age

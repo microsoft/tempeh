@@ -3,20 +3,22 @@
 
 """Defines a model class for a Pytorch DNN"""
 
+import logging
 import numpy as np
 import pandas as pd
+
+from .base_model import BaseModelWrapper
+from tempeh.constants import Tasks, DataTypes, Algorithms
+
+logger = logging.getLogger(__name__)
 
 try:
     import torch
     from torch import nn
     import torch.nn.functional as F
 except ImportError:
-    print("No module named 'torch'. If you want to use pytorch with tempeh "
-          "please install pytorch separately first.")
-
-from .base_model import BaseModelWrapper
-
-from tempeh.constants import Tasks, DataTypes, Algorithms  # noqa
+    logger.debug("No module named 'torch'. If you want to use pytorch with tempeh please install "
+                 "pytorch separately first.")
 
 
 class BasePytorchWrapper(BaseModelWrapper):

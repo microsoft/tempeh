@@ -3,20 +3,21 @@
 
 """Defines a model class for a Keras DNN"""
 
+import logging
 import numpy as np
+
+from .base_model import BaseModelWrapper
+from tempeh.constants import Tasks, DataTypes, Algorithms
+
+logger = logging.getLogger(__name__)
 
 try:
     import keras
     from tensorflow.keras.layers import Activation, Dense, Dropout
     from tensorflow.keras.models import Sequential
 except ImportError:
-    print("No modules named 'keras' and 'tensorflow'. "
-          "If you want to use keras and tensorflow with tempeh "
-          "please install keras and tensorflow separately first.")
-
-
-from .base_model import BaseModelWrapper
-from tempeh.constants import Tasks, DataTypes, Algorithms  # noqa
+    logger.debug("No modules named 'keras' and 'tensorflow'. If you want to use keras and "
+                 "tensorflow with tempeh please install keras and tensorflow separately first.")
 
 
 class BaseKerasWrapper(BaseModelWrapper):

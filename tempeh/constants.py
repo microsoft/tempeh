@@ -71,10 +71,10 @@ class ClassVars:
 
     LOAD_FUNCTION = 'load_function'
     TASK = 'task'
-    FEATURE_TYPE = 'feature_type'
+    FEATURE_TYPE = '_feature_type'
     DATA_TYPE = 'data_type'
-    SIZE = 'size'
-    TARGET_COL = 'target_col'
+    SIZE = '_size'
+    TARGET_COL = '_target_col'
     EXPLAINER_FUNC = 'explainer_func'
     LIMIT = 'limit'
     DATA_TYPES = 'data_types'

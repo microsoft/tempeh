@@ -20,7 +20,7 @@ class RandomForestClassifierWrapper(BaseModelWrapper, ExplainableMixin):
         """Initializes the random forest classifier wrapper.
         """
 
-        rfc_args = {} if self.rfc_args is None else self.rfc_args
+        rfc_args = {} if self._rfc_args is None else self._rfc_args
         rfc_args[ModelParams.RANDOM_STATE] = 777
 
         model = RandomForestClassifier(**rfc_args)
@@ -51,4 +51,4 @@ class RandomForestClassifierWrapper(BaseModelWrapper, ExplainableMixin):
         :returns: a list of global feature importances
         :rtype: list[float]
         """
-        return self.model.feature_importances_.tolist()
+        return self._model.feature_importances_.tolist()

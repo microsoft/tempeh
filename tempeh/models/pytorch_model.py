@@ -73,7 +73,7 @@ class PytorchMulticlassClassifierWrapper(BasePytorchWrapper):
         # Train the model
         criterion = nn.CrossEntropyLoss()
         optimizer = torch.optim.SGD(net.parameters(), lr=0.01)
-        self.model = _train_pytorch_model(epochs, criterion, optimizer, net, torch_X, torch_y)
+        self._model = _train_pytorch_model(epochs, criterion, optimizer, net, torch_X, torch_y)
 
 
 class PytorchBinaryClassifierWrapper(BasePytorchWrapper):
@@ -100,7 +100,7 @@ class PytorchBinaryClassifierWrapper(BasePytorchWrapper):
         # Train the model
         criterion = nn.CrossEntropyLoss()
         optimizer = torch.optim.SGD(net.parameters(), lr=0.01)
-        self.model = _train_pytorch_model(epochs, criterion, optimizer, net, torch_X, torch_y)
+        self._model = _train_pytorch_model(epochs, criterion, optimizer, net, torch_X, torch_y)
 
 
 class PytorchRegressionWrapper(BasePytorchWrapper):
@@ -129,7 +129,7 @@ class PytorchRegressionWrapper(BasePytorchWrapper):
         # Train the model
         criterion = nn.MSELoss()
         optimizer = torch.optim.SGD(net.parameters(), lr=0.0001)
-        self.model = _train_pytorch_model(epochs, criterion, optimizer, net, torch_X, torch_y)
+        self._model = _train_pytorch_model(epochs, criterion, optimizer, net, torch_X, torch_y)
 
 
 def _common_pytorch_generator(numCols, numClasses=None):

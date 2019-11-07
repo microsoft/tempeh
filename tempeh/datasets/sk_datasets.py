@@ -37,12 +37,12 @@ class SKLearnPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):
 
         bunch = type(self).load_function()
 
-        super().__init__(bunch.data, bunch.target, nrows=self.size[0], data_t=self.feature_type)
+        super().__init__(bunch.data, bunch.target, nrows=self._size[0], data_t=self._feature_type)
 
         if "feature_names" in bunch:
-            self.features = bunch.feature_names
+            self._features = bunch.feature_names
         if "target_names" in bunch:
-            self.target_names = bunch.target_names
+            self._target_names = bunch.target_names
 
     @classmethod
     def generate_dataset_class(cls, name, nrows=None):

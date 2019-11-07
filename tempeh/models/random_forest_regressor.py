@@ -19,7 +19,7 @@ class RandomForestRegressorWrapper(BaseModelWrapper, ExplainableMixin):
         """Initializes the random forest regressor wrapper.
         """
 
-        rfr_args = {} if self.rfr_args is None else self.rfr_args
+        rfr_args = {} if self._rfr_args is None else self._rfr_args
         rfr_args[ModelParams.RANDOM_STATE] = 777
 
         model = RandomForestRegressor(**rfr_args)
@@ -50,4 +50,4 @@ class RandomForestRegressorWrapper(BaseModelWrapper, ExplainableMixin):
         :returns: a list of global feature importances
         :rtype: list[float]
         """
-        return self.model.feature_importances_.tolist()
+        return self._model.feature_importances_.tolist()

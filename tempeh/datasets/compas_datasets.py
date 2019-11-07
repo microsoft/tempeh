@@ -68,32 +68,32 @@ class CompasPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):
         """Initializes the COMPAS dataset """
 
         bunch = type(self).load_function()
-        target = bunch[self.target_col].astype(int)
-        bunch.drop(self.target_col, axis=1, inplace=True)
+        target = bunch[self._target_col].astype(int)
+        bunch.drop(self._target_col, axis=1, inplace=True)
         bunch = bunch.astype(float)
 
-        super().__init__(bunch, target, nrows=self.size[0], data_t=self.feature_type)
+        super().__init__(bunch, target, nrows=self._size[0], data_t=self._feature_type)
 
-        self.features = list(bunch)
+        self._features = list(bunch)
 
         if drop_race:
-            self.race_train = recover_categorical_encoding_for_compas_race(self.X_train)
-            self.race_test = recover_categorical_encoding_for_compas_race(self.X_test)
+            self._race_train = recover_categorical_encoding_for_compas_race(self._X_train)
+            self._race_test = recover_categorical_encoding_for_compas_race(self._X_test)
 
             # race is in columns 9-10 because the super class constructor removes the target
-            self.X_train = np.delete(self.X_train, np.s_[9:11], axis=1)
-            self.X_test = np.delete(self.X_test, np.s_[9:11], axis=1)
-            del[self.features[9:11]]
+            self._X_train = np.delete(self._X_train, np.s_[9:11], axis=1)
+            self._X_test = np.delete(self._X_test, np.s_[9:11], axis=1)
+            del[self._features[9:11]]
 
         if drop_sex:
-            self.sex_train = self.X_train[:, 0]
-            self.sex_test = self.X_test[:, 0]
+            self._sex_train = self._X_train[:, 0]
+            self._sex_test = self._X_test[:, 0]
 
-            self.X_train = np.delete(self.X_train, 0, axis=1)
-            self.X_test = np.delete(self.X_test, 0, axis=1)
-            del[self.features[0]]
+            self._X_train = np.delete(self._X_train, 0, axis=1)
+            self._X_test = np.delete(self._X_test, 0, axis=1)
+            del[self._features[0]]
 
-        self.target_names = np.unique(target)
+        self._target_names = np.unique(target)
 
     @classmethod
     def generate_dataset_class(cls, name, nrows=None):

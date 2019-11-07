@@ -57,7 +57,7 @@ class KerasMulticlassClassifierWrapper(BaseKerasWrapper):
         :param dataset: the dataset
         :type dataset: BasePerformanceDatasetWrapper
         """
-        model = create_keras_multiclass_classifier(dataset.X_train, dataset.y_train)
+        model = create_keras_multiclass_classifier(dataset._X_train, dataset._y_train)
         super().__init__(dataset, model)
 
 
@@ -72,7 +72,7 @@ class KerasBinaryClassifierWrapper(BaseKerasWrapper):
         :param dataset: the dataset
         :type dataset: BasePerformanceDatasetWrapper
         """
-        model = create_keras_classifier(dataset.X_train, dataset.y_train)
+        model = create_keras_classifier(dataset._X_train, dataset._y_train)
         super().__init__(dataset, model)
 
 
@@ -87,7 +87,7 @@ class KerasRegressionWrapper(BaseKerasWrapper):
         :param dataset: the dataset
         :type dataset: BasePerformanceDatasetWrapper
         """
-        model = create_keras_regressor(dataset.X_train, dataset.y_train)
+        model = create_keras_regressor(dataset._X_train, dataset._y_train)
         super().__init__(dataset, model)
 
 

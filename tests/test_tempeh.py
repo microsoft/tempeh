@@ -11,5 +11,5 @@ def test_fit_predict(Dataset, Model):
     dataset = Dataset()
     model = Model()
     if model.compatible_with_dataset(dataset):
-        model.fit(dataset.X_train, dataset.y_train)
-        model.predict(dataset.X_test)
+        model.fit(dataset._X_train, dataset._y_train)
+        model.predict(dataset._X_test)

@@ -64,7 +64,7 @@ class CompasPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):
     feature_type = None
     target_col = None
 
-    def __init__(self, drop_race=True, drop_sex=False):
+    def __init__(self, drop_race=True, drop_sex=True):
         """Initializes the COMPAS dataset """
 
         bunch = type(self).load_function()

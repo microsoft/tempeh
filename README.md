@@ -24,12 +24,14 @@ from tempeh.configurations import datasets, models
 @pytest.mark.parametrize('Model', models.values())
 def test_fit_predict_regression(Dataset, Model):
     dataset = Dataset()
+    X_train, X_test = dataset.get_X()
+    y_train, y_test = dataset.get_y()
     model = Model()
     max_execution_time = get_max_execution_time(dataset, model)
     if model.compatible_with_dataset(dataset):
         start_time = time()
-        model.fit(dataset.X_train, dataset.y_train)
-        model.predict(dataset.X_test)
+        model.fit(X_train, y_train)
+        model.predict(X_test)
         duration = time() - start_time
 
         assert duration < max_execution_time

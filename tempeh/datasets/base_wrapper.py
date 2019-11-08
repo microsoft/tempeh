@@ -109,9 +109,9 @@ class BasePerformanceDatasetWrapper(object):
         """
         if format == np.ndarray:
             return self._y_train, self._y_test
-        elif format == pd.DataFrame:
+        elif format == pd.Series:
             y_train = pd.Series(self._y_train, columns=self._features)
             y_test = pd.Series(self._y_test, columns=self._features)
             return y_train, y_test
         else:
-            raise ValueError("Only numpy.ndarray and pandas.DataFrame are currently supported.")
+            raise ValueError("Only numpy.ndarray and pandas.Series are currently supported.")

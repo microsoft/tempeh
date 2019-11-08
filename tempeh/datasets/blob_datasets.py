@@ -28,9 +28,9 @@ class BlobPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):
         """Initializes the blob datasets."""
         bunch, target = type(self).load_function()
 
-        super().__init__(bunch, target, nrows=self.size[0], data_t=self.feature_type)
-        self.target_names = np.unique(target)
-        self.features = list(range(bunch.shape[1]))
+        super().__init__(bunch, target, nrows=self._size[0], data_t=self._feature_type)
+        self._target_names = np.unique(target)
+        self._features = list(range(bunch.shape[1]))
 
     @classmethod
     def generate_dataset_class(cls, name, nrows=None):

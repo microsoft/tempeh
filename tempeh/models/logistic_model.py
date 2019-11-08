@@ -22,7 +22,7 @@ class LogisticModelWrapper(BaseModelWrapper, ExplainableMixin):
         """Initializes the logistic regression wrapper.
         """
 
-        l_args = self.l_args if self.l_args is not None else {ModelParams.RANDOM_STATE: 777}
+        l_args = self._l_args if self._l_args is not None else {ModelParams.RANDOM_STATE: 777}
         model = LogisticRegression(**l_args)
 
         super().__init__(model)
@@ -60,4 +60,4 @@ class LogisticModelWrapper(BaseModelWrapper, ExplainableMixin):
             mean = np.mean(dataset.X_test.toarray(), axis=0, keepdims=True)
         except:  # noqa: E722
             mean = np.mean(dataset.X_test, axis=0, keepdims=True)
-        return np.abs(np.mean(self.model.coef_ * mean, axis=0))
+        return np.abs(np.mean(self._model.coef_ * mean, axis=0))

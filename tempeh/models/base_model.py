@@ -19,7 +19,7 @@ class BaseModelWrapper(object):
         :param model: the model
         :type model: model
         """
-        self.model = model
+        self._model = model
 
     @classmethod
     def compatible_with_dataset(cls, dataset):
@@ -31,10 +31,10 @@ class BaseModelWrapper(object):
         return True
 
     def fit(self, X, y, sample_weight=None):
-        self.model.fit(X, y)
+        self._model.fit(X, y)
 
     def predict(self, X):
-        return self.model.predict(X)
+        return self._model.predict(X)
 
 
 class ExplainableMixin(ABC):
@@ -59,5 +59,5 @@ class ExplainableMixin(ABC):
         :rtype: list[int]
         """
         tuples = sorted([(relevance, index) for index, relevance
-                         in enumerate(self.true_global_importance_values)], reverse=True)
+                         in enumerate(self._true_global_importance_values)], reverse=True)
         return list(list(zip(*tuples))[1])

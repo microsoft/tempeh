@@ -31,57 +31,87 @@ class BasePerformanceDatasetWrapper(object):
         :param data_t: array specifying continuous or nominal attributes
         :type data_t: array
         """
-        self.features = None
-        self.target_names = None
-        self.data_t = data_t
+        self._features = None
+        self._target_names = None
+        self._data_t = data_t
 
-        self.dataset = dataset
-        self.targets = targets
+        self._dataset = dataset
+        self._targets = targets
 
         dataset_is_df = isinstance(dataset, pd.DataFrame)
         dataset_is_series = isinstance(dataset, pd.Series)
         if dataset_is_df or dataset_is_series:
-            self.features = dataset.columns.values.tolist()
-            self.dataset = dataset.values
+            self._features = dataset.columns.values.tolist()
+            self._dataset = dataset.values
 
         targets_is_df = isinstance(targets, pd.DataFrame)
         targets_is_series = isinstance(targets, pd.Series)
         if targets_is_df or targets_is_series:
-            self.targets = targets.values
+            self._targets = targets.values
 
-        self.nrows = nrows
+        self._nrows = nrows
 
         self._sample()
         self._training_split()
 
     def _sample(self, prob=.8, local_var=1):
-        """Samples up or down depending on self.nrows."""
-        if self.nrows is not None and self.nrows != self.dataset.shape[0]:
+        """Samples up or down depending on self._nrows."""
+        if self._nrows is not None and self._nrows != self._dataset.shape[0]:
             # Set random seed to insure consistency across runs
             np.random.seed(219)
 
             # Creates random indices for sampling
-            # We need to replace if self.nrows > self.dataset.shape[0]
-            size = abs(self.nrows - self.dataset.shape[0])
-            index = np.random.choice(self.dataset.shape[0], size=size,
-                                     replace=self.nrows > self.dataset.shape[0])
+            # We need to replace if self._nrows > self._dataset.shape[0]
+            size = abs(self._nrows - self._dataset.shape[0])
+            index = np.random.choice(self._dataset.shape[0], size=size,
+                                     replace=self._nrows > self._dataset.shape[0])
 
-            if self.nrows > self.dataset.shape[0]:
-                T = np.hstack((self.dataset, np.array([self.targets]).T))
+            if self._nrows > self._dataset.shape[0]:
+                T = np.hstack((self._dataset, np.array([self._targets]).T))
                 # Combining the target column to actual dataset
                 # Values for probability and local variance taken from github
-                new_data = munge(T, self.nrows // T.shape[0],
-                                 prob, local_var, self.data_t)
+                new_data = munge(T, self._nrows // T.shape[0],
+                                 prob, local_var, self._data_t)
                 # Produces a new data set with size equal to an integer multiple of the original
-                self.dataset = new_data[:, :-1]
-                self.targets = new_data[:, -1:]
+                self._dataset = new_data[:, :-1]
+                self._targets = new_data[:, -1:]
             else:
-                self.dataset = np.delete(self.dataset, index, 0)
-                self.targets = np.delete(self.targets, index, 0)
+                self._dataset = np.delete(self._dataset, index, 0)
+                self._targets = np.delete(self._targets, index, 0)
         else:
-            self.nrows = self.dataset.shape[0]
+            self._nrows = self._dataset.shape[0]
 
     def _training_split(self):
         """Creates a training split."""
-        self.X_train, self.X_test, self.y_train, self.y_test = \
-            train_test_split(self.dataset, self.targets, test_size=0.33, random_state=123)
+        self._X_train, self._X_test, self._y_train, self._y_test = \
+            train_test_split(self._dataset, self._targets, test_size=0.33, random_state=123)
+
+    def get_X(self, format=np.ndarray):
+        """ Returns the features of both the training and the test data.
+
+        :param format: either numpy.ndarray or pandas.DataFrame
+        :type format: type
+        """
+        if format == np.ndarray:
+            return self._X_train, self._X_test
+        elif format == pd.DataFrame:
+            X_train = pd.DataFrame(self._X_train, columns=self._features)
+            X_test = pd.DataFrame(self._X_test, columns=self._features)
+            return X_train, X_test
+        else:
+            raise ValueError("Only numpy.ndarray and pandas.DataFrame are currently supported.")
+
+    def get_y(self, format=np.ndarray):
+        """ Returns the targets of both the training and the test data.
+
+        :param format: either numpy.ndarray or pandas.Series
+        :type format: type
+        """
+        if format == np.ndarray:
+            return self._y_train, self._y_test
+        elif format == pd.DataFrame:
+            y_train = pd.Series(self._y_train, columns=self._features)
+            y_test = pd.Series(self._y_test, columns=self._features)
+            return y_train, y_test
+        else:
+            raise ValueError("Only numpy.ndarray and pandas.DataFrame are currently supported.")

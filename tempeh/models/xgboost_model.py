@@ -22,7 +22,7 @@ class XGBoostClassifierWrapper(BaseModelWrapper, ExplainableMixin):
         :type dataset: BasePerformanceDatasetWrapper
         """
 
-        xgb_args = {} if self.xgb_args is None else self.xgb_args
+        xgb_args = {} if self._xgb_args is None else self._xgb_args
         xgb_args[ModelParams.RANDOM_STATE] = 777
 
         model = XGBClassifier(**xgb_args)
@@ -53,7 +53,7 @@ class XGBoostClassifierWrapper(BaseModelWrapper, ExplainableMixin):
         :returns: a list of global feature importances
         :rtype: list[float]
         """
-        return list(self.model.feature_importances_)
+        return list(self._model.feature_importances_)
 
 
 class XGBoostRegressorWrapper(BaseModelWrapper, ExplainableMixin):
@@ -67,7 +67,7 @@ class XGBoostRegressorWrapper(BaseModelWrapper, ExplainableMixin):
         """Initializes the XGBoost Regressor wrapper.
         """
 
-        xgb_args = {} if self.xgb_args is None else self.xgb_args
+        xgb_args = {} if self._xgb_args is None else self._xgb_args
         xgb_args[ModelParams.RANDOM_STATE] = 777
 
         model = XGBRegressor(**xgb_args)
@@ -98,4 +98,4 @@ class XGBoostRegressorWrapper(BaseModelWrapper, ExplainableMixin):
         :returns: a list of global feature importances
         :rtype: list[float]
         """
-        return list(self.model.feature_importances_)
+        return list(self._model.feature_importances_)

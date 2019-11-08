@@ -20,7 +20,7 @@ class LightGBMClassifierWrapper(BaseModelWrapper, ExplainableMixin):
         """Initializes the LightGBM Classifier wrapper.
         """
 
-        lgbm_args = {} if self.lgbm_args is None else self.lgbm_args
+        lgbm_args = {} if self._lgbm_args is None else self._lgbm_args
         lgbm_args[ModelParams.RANDOM_STATE] = 777
 
         model = LGBMClassifier(**lgbm_args)
@@ -51,7 +51,7 @@ class LightGBMClassifierWrapper(BaseModelWrapper, ExplainableMixin):
         :returns: a list of global feature importances
         :rtype: list[float]
         """
-        return list(self.model.feature_importances_)
+        return list(self._model.feature_importances_)
 
 
 class LightGBMRegressorWrapper(BaseModelWrapper, ExplainableMixin):
@@ -67,7 +67,7 @@ class LightGBMRegressorWrapper(BaseModelWrapper, ExplainableMixin):
         :type dataset: BasePerformanceDatasetWrapper
         """
 
-        lgbm_args = {} if self.lgbm_args is None else self.lgbm_args
+        lgbm_args = {} if self._lgbm_args is None else self._lgbm_args
         lgbm_args[ModelParams.RANDOM_STATE] = 777
 
         model = LGBMRegressor(**lgbm_args)
@@ -98,4 +98,4 @@ class LightGBMRegressorWrapper(BaseModelWrapper, ExplainableMixin):
         :returns: a list of global feature importances
         :rtype: list[float]
         """
-        return list(self.model.feature_importances_)
+        return list(self._model.feature_importances_)

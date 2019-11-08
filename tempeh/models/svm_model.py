@@ -34,8 +34,8 @@ class SVMModelWrapper(BaseModelWrapper):
         :rtype: bool
         """
         return dataset.task in cls.tasks and dataset.data_type == DataTypes.TABULAR and \
-            (limit is None or all((limit[i] is None or limit[i] > dataset.size[i]
-                                   for i in range(len(dataset.size)))))
+            (limit is None or all((limit[i] is None or limit[i] > dataset._size[i]
+                                   for i in range(len(dataset._size)))))
 
 
 class RBMSVMModelWrapper(SVMModelWrapper):

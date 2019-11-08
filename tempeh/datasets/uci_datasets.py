@@ -39,13 +39,13 @@ class UCIPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):
         """Initializes the UCI dataset """
 
         bunch = type(self).load_function()
-        target = bunch[self.target_col].astype(int)
-        bunch.drop(self.target_col, axis=1, inplace=True)
+        target = bunch[self._target_col].astype(int)
+        bunch.drop(self._target_col, axis=1, inplace=True)
         bunch = bunch.astype(float)
 
-        super().__init__(bunch, target, nrows=self.size[0], data_t=self.feature_type)
-        self.features = list(bunch)
-        self.target_names = np.unique(target)
+        super().__init__(bunch, target, nrows=self._size[0], data_t=self._feature_type)
+        self._features = list(bunch)
+        self._target_names = np.unique(target)
 
     @classmethod
     def generate_dataset_class(cls, name, nrows=None):

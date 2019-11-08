@@ -14,13 +14,13 @@ class DecisionTreeClassifierWrapper(BaseModelWrapper, ExplainableMixin):
 
     tasks = [Tasks.BINARY, Tasks.MULTICLASS]
     algorithm = Algorithms.TREE
-    dtc_args = None
+    _dtc_args = None
 
     def __init__(self):
         """Initializes the decision tree wrapper.
         """
 
-        dtc_args = {} if self.dtc_args is None else self.dtc_args
+        dtc_args = {} if self._dtc_args is None else self._dtc_args
         dtc_args[ModelParams.RANDOM_STATE] = 777
 
         model = DecisionTreeClassifier(**dtc_args)
@@ -43,7 +43,7 @@ class DecisionTreeClassifierWrapper(BaseModelWrapper, ExplainableMixin):
         :type dtc_args: dict
         :rtype: cls
         """
-        return type("Custom" + cls.__name__, (cls, ), {"dtc_args": dtc_args})
+        return type("Custom" + cls.__name__, (cls, ), {"_dtc_args": dtc_args})
 
     @property
     def true_global_importance_values(self):
@@ -51,4 +51,4 @@ class DecisionTreeClassifierWrapper(BaseModelWrapper, ExplainableMixin):
         :returns: a list of global feature importances
         :rtype: list[float]
         """
-        return list(self.model.feature_importances_)
+        return list(self._model.feature_importances_)

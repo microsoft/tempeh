@@ -10,6 +10,7 @@ import numpy as np
 
 from sklearn.model_selection import train_test_split
 from tempeh.perf_utilities.munge import munge  # noqa
+from tempeh.constants import ClassVars
 
 
 class BasePerformanceDatasetWrapper(object):
@@ -110,8 +111,11 @@ class BasePerformanceDatasetWrapper(object):
         if format == np.ndarray:
             return self._y_train, self._y_test
         elif format == pd.Series:
-            y_train = pd.Series(self._y_train.squeeze(), name=self._target_col)
-            y_test = pd.Series(self._y_test.squeeze(), name=self._target_col)
+            kwargs = {}
+            if hasattr(self, ClassVars.TARGET_COL):
+                kwargs["name"] = self._target_col
+            y_train = pd.Series(self._y_train.squeeze(), **kwargs)
+            y_test = pd.Series(self._y_test.squeeze(), **kwargs)
             return y_train, y_test
         else:
             raise ValueError("Only numpy.ndarray and pandas.Series are currently supported.")

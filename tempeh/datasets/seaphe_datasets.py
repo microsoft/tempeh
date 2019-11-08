@@ -57,13 +57,13 @@ def lawschool_data_loader():
 
 
 def recover_categorical_encoding_for_compas_race(data):
-    return list(map(lambda tuple: "".join(list(tuple)), zip(
+    return np.array(list(map(lambda tuple: "".join(list(tuple)), zip(
         [
             "white" if is_column_true else "" for is_column_true in data[:, 0]
         ],
         [
             "black" if is_column_true else "" for is_column_true in data[:, 1]
-        ])))
+        ]))))
 
 
 class SEAPHEPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):

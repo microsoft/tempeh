@@ -110,8 +110,34 @@ class BasePerformanceDatasetWrapper(object):
         if format == np.ndarray:
             return self._y_train, self._y_test
         elif format == pd.Series:
-            y_train = pd.Series(self._y_train, columns=self._features)
-            y_test = pd.Series(self._y_test, columns=self._features)
+            y_train = pd.Series(self._y_train.squeeze(), name=self._target_col)
+            y_test = pd.Series(self._y_test.squeeze(), name=self._target_col)
             return y_train, y_test
+        else:
+            raise ValueError("Only numpy.ndarray and pandas.Series are currently supported.")
+
+    def get_sensitive_features(self, name, format=np.ndarray):
+        """ Returns the sensitive features of both the training and the test data. If the
+        sensitive features don't exist under the specified name a ValueError is returned.
+
+        :param name: a string describing the sensitive feature, e.g. gender, race, or age
+        :type name: str
+        :param format: either numpy.ndarray or pandas.Series
+        :type format: type
+        """
+        sensitive_features_train_name = "_{}_train".format(name)
+        sensitive_features_test_name = "_{}_test".format(name)
+        if not hasattr(self, sensitive_features_train_name) or \
+                not hasattr(self, sensitive_features_test_name):
+            raise ValueError("This dataset does not have sensitive features with the name {}."
+                             .format(name))
+
+        sensitive_features_train = getattr(self, sensitive_features_train_name).squeeze()
+        sensitive_features_test = getattr(self, sensitive_features_test_name).squeeze()
+        if format == np.ndarray:
+            return sensitive_features_train, sensitive_features_test
+        elif format == pd.Series:
+            return pd.Series(sensitive_features_train, name=name), \
+                pd.Series(sensitive_features_test, name=name)
         else:
             raise ValueError("Only numpy.ndarray and pandas.Series are currently supported.")

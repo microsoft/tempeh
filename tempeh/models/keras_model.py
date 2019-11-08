@@ -5,12 +5,17 @@
 
 import logging
 import numpy as np
+import os
+import sys
 
 from .base_model import BaseModelWrapper
 from tempeh.constants import Tasks, DataTypes, Algorithms
 
 logger = logging.getLogger(__name__)
 
+# Suppress messages from tensorflow
+stderr = sys.stderr
+sys.stderr = open(os.devnull, 'w')
 try:
     import keras
     from tensorflow.keras.layers import Activation, Dense, Dropout
@@ -18,6 +23,8 @@ try:
 except ImportError:
     logger.debug("No modules named 'keras' and 'tensorflow'. If you want to use keras and "
                  "tensorflow with tempeh please install keras and tensorflow separately first.")
+finally:
+    sys.stderr = stderr
 
 
 class BaseKerasWrapper(BaseModelWrapper):

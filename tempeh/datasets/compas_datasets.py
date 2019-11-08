@@ -38,13 +38,13 @@ def compas_data_loader():
 
 
 def recover_categorical_encoding_for_compas_race(data):
-    return list(map(lambda tuple: "".join(list(tuple)), zip(
+    return np.array(list(map(lambda tuple: "".join(list(tuple)), zip(
         [
             "African-American" if is_column_true else "" for is_column_true in data[:, 9]
         ],
         [
             "Caucasian" if is_column_true else "" for is_column_true in data[:, 10]
-        ])))
+        ]))))
 
 
 class CompasPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):

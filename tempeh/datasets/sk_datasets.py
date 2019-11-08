@@ -63,5 +63,6 @@ class SKLearnPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):
         class_name = name.title() + "PerformanceDatasetWrapper"
         return type(class_name, (cls, ), {ClassVars.LOAD_FUNCTION: load_function,
                                           ClassVars.FEATURE_TYPE: feature_type,
-                                          ClassVars.TASK: task, ClassVars.DATA_TYPE: data_type,
+                                          ClassVars.TASK: task,
+                                          ClassVars.DATA_TYPE: data_type,
                                           ClassVars.SIZE: size})

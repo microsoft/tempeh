@@ -53,7 +53,7 @@ def load_lawschool_data(target):
         elif target == 'zfygpa':
             # drop NaN records for zfygpa
             data = data[np.isfinite(data['zfygpa'])]
-        
+
         # drop NaN records for features
         data = data[np.isfinite(data["lsat"]) & np.isfinite(data['ugpa'])]
 
@@ -128,11 +128,13 @@ class SEAPHEPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):
             self._X_train = np.delete(self._X_train, np.s_[0:2], axis=1)
             self._X_test = np.delete(self._X_test, np.s_[0:2], axis=1)
             del[self._features[0:2]]
-        
+
         if drop_gender:
             starting_column = 0 if drop_race else 2
-            self._gender_train = recover_categorical_encoding_for_compas_gender(self._X_train, starting_column)
-            self._gender_test = recover_categorical_encoding_for_compas_gender(self._X_test, starting_column)
+            self._gender_train = \
+                recover_categorical_encoding_for_compas_gender(self._X_train, starting_column)
+            self._gender_test = \
+                recover_categorical_encoding_for_compas_gender(self._X_test, starting_column)
             # gender is in column 2 (only binary gender data available),
             # unless race has been dropped already, then column 0
             self._X_train = np.delete(self._X_train, np.s_[starting_column], axis=1)

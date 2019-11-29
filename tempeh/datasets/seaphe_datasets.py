@@ -65,7 +65,7 @@ def load_lawschool_data(target):
     return data
 
 
-def recover_categorical_encoding_for_compas_race(data, starting_column=0):
+def recover_categorical_encoding_for_seaphe_race(data, starting_column=0):
     return np.array(list(map(lambda tuple: "".join(list(tuple)), zip(
         [
             "white" if is_column_true else "" for is_column_true in data[:, starting_column]
@@ -75,7 +75,7 @@ def recover_categorical_encoding_for_compas_race(data, starting_column=0):
         ]))))
 
 
-def recover_categorical_encoding_for_compas_gender(data, starting_column=2):
+def recover_categorical_encoding_for_seaphe_gender(data, starting_column=2):
     return np.array(
         [
             "male" if is_column_true else "female" for is_column_true in data[:, starting_column]
@@ -121,8 +121,8 @@ class SEAPHEPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):
         self._features = list(bunch)
 
         if drop_race:
-            self._race_train = recover_categorical_encoding_for_compas_race(self._X_train)
-            self._race_test = recover_categorical_encoding_for_compas_race(self._X_test)
+            self._race_train = recover_categorical_encoding_for_seaphe_race(self._X_train)
+            self._race_test = recover_categorical_encoding_for_seaphe_race(self._X_test)
 
             # race is in columns 0-1
             self._X_train = np.delete(self._X_train, np.s_[0:2], axis=1)
@@ -132,9 +132,9 @@ class SEAPHEPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):
         if drop_gender:
             starting_column = 0 if drop_race else 2
             self._gender_train = \
-                recover_categorical_encoding_for_compas_gender(self._X_train, starting_column)
+                recover_categorical_encoding_for_seaphe_gender(self._X_train, starting_column)
             self._gender_test = \
-                recover_categorical_encoding_for_compas_gender(self._X_test, starting_column)
+                recover_categorical_encoding_for_seaphe_gender(self._X_test, starting_column)
             # gender is in column 2 (only binary gender data available),
             # unless race has been dropped already, then column 0
             self._X_train = np.delete(self._X_train, np.s_[starting_column], axis=1)

@@ -41,7 +41,8 @@ datasets = {
     'giant_wine': SKLearnPerformanceDatasetWrapper.generate_dataset_class('wine', nrows=DatasetSizes.GIANT),
     'giant_boston': SKLearnPerformanceDatasetWrapper.generate_dataset_class('boston', nrows=DatasetSizes.GIANT),
     'compas': CompasPerformanceDatasetWrapper.generate_dataset_class('compas'),
-    'lawschool_passbar': SEAPHEPerformanceDatasetWrapper.generate_dataset_class('lawschool_passbar')
+    'lawschool_passbar': SEAPHEPerformanceDatasetWrapper.generate_dataset_class('lawschool_passbar'),
+    'lawschool_gpa': SEAPHEPerformanceDatasetWrapper.generate_dataset_class('lawschool_gpa')
 }
 
 # models dictionary

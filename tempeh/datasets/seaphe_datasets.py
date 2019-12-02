@@ -15,12 +15,17 @@ from .base_wrapper import BasePerformanceDatasetWrapper
 from tempeh.constants import FeatureType, Tasks, DataTypes, ClassVars, SEAPHEDatasets  # noqa
 
 
-def lawschool_data_loader():
+def load_lawschool_data(target):
     """ Downloads SEAPHE lawschool data from the SEAPHE webpage.
     For more information refer to http://www.seaphe.org/databases.php
 
+    :param target: the name of the target variable, either pass_bar or zfygpa
+    :type target: str
     :return: pandas.DataFrame with columns
     """
+    if target not in ['pass_bar', 'zfygpa']:
+        raise ValueError("Only pass_bar and zfygpa are supported targets.")
+
     with tempfile.TemporaryDirectory() as temp_dir:
         response = requests.get("http://www.seaphe.org/databases/LSAC/LSAC_SAS.zip")
         temp_file_name = os.path.join(temp_dir, "LSAC_SAS.zip")
@@ -42,53 +47,72 @@ def lawschool_data_loader():
         # encode dropout as 0/1
         data = data.assign(dropout=(data["Dropout"] == b"YES") * 1)
 
-        # drop NaN records for pass_bar and features
-        data = data[(data['pass_bar'] == 1) | (data['pass_bar'] == 0)]
+        if target == 'pass_bar':
+            # drop NaN records for pass_bar
+            data = data[(data['pass_bar'] == 1) | (data['pass_bar'] == 0)]
+        elif target == 'zfygpa':
+            # drop NaN records for zfygpa
+            data = data[np.isfinite(data['zfygpa'])]
+
+        # drop NaN records for features
         data = data[np.isfinite(data["lsat"]) & np.isfinite(data['ugpa'])]
 
         # Select relevant columns for machine learning.
         # We explicitly leave in age_cat to allow linear classifiers to be non-linear in age
-        # TODO: add another dataset where we expose 'zfygpa' for regression
-        # TODO: add another version with 'gender'
         # TODO: consider using 'fam_inc', 'age', 'parttime', 'dropout'
-        data = data[['white', 'black', 'lsat', 'ugpa', 'pass_bar']]
+        data = data[['white', 'black', 'gender', 'lsat', 'ugpa', target]]
 
     return data
 
 
-def recover_categorical_encoding_for_compas_race(data):
+def recover_categorical_encoding_for_seaphe_race(data, starting_column=0):
     return np.array(list(map(lambda tuple: "".join(list(tuple)), zip(
         [
-            "white" if is_column_true else "" for is_column_true in data[:, 0]
+            "white" if is_column_true else "" for is_column_true in data[:, starting_column]
         ],
         [
-            "black" if is_column_true else "" for is_column_true in data[:, 1]
+            "black" if is_column_true else "" for is_column_true in data[:, starting_column + 1]
         ]))))
+
+
+def recover_categorical_encoding_for_seaphe_gender(data, starting_column=2):
+    return np.array(
+        [
+            "male" if is_column_true else "female" for is_column_true in data[:, starting_column]
+        ])
 
 
 class SEAPHEPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):
     """SEAPHE Datasets"""
 
     dataset_map = {
-        SEAPHEDatasets.LAWSCHOOL_PASSBAR: (lawschool_data_loader, "pass_bar",
-                                           [FeatureType.NOMINAL] * 2 +
+        SEAPHEDatasets.LAWSCHOOL_PASSBAR: (lambda: load_lawschool_data('pass_bar'),
+                                           "pass_bar",
+                                           [FeatureType.NOMINAL] * 3 +
                                            [FeatureType.CONTINUOUS] * 2 +
-                                           [FeatureType.NOMINAL])
+                                           [FeatureType.NOMINAL]),
+        SEAPHEDatasets.LAWSCHOOL_GPA: (lambda: load_lawschool_data('zfygpa'),
+                                       "zfygpa",
+                                       [FeatureType.NOMINAL] * 3 +
+                                       [FeatureType.CONTINUOUS] * 3),
     }
 
     metadata_map = {
-        SEAPHEDatasets.LAWSCHOOL_PASSBAR: (Tasks.BINARY, DataTypes.TABULAR, (23103, 5))
+        SEAPHEDatasets.LAWSCHOOL_PASSBAR: (Tasks.BINARY, DataTypes.TABULAR, (20460, 6)),
+        SEAPHEDatasets.LAWSCHOOL_GPA: (Tasks.REGRESSION, DataTypes.TABULAR, (22342, 6))
     }
 
     load_function = None
     feature_type = None
     target_col = None
 
-    def __init__(self, drop_race=True):
+    def __init__(self, drop_race=True, drop_gender=True):
         """Initializes the SEAPHE dataset """
 
         bunch = type(self).load_function()
-        target = bunch[self._target_col].astype(int)
+        target = bunch[self._target_col]
+        if self._target_col == "pass_bar":
+            target = target.astype(int)
         bunch.drop(self._target_col, axis=1, inplace=True)
         bunch = bunch.astype(float)
 
@@ -97,13 +121,25 @@ class SEAPHEPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):
         self._features = list(bunch)
 
         if drop_race:
-            self._race_train = recover_categorical_encoding_for_compas_race(self._X_train)
-            self._race_test = recover_categorical_encoding_for_compas_race(self._X_test)
+            self._race_train = recover_categorical_encoding_for_seaphe_race(self._X_train)
+            self._race_test = recover_categorical_encoding_for_seaphe_race(self._X_test)
 
-            # race is in columns 0-1 because the super class constructor removes the target
+            # race is in columns 0-1
             self._X_train = np.delete(self._X_train, np.s_[0:2], axis=1)
             self._X_test = np.delete(self._X_test, np.s_[0:2], axis=1)
             del[self._features[0:2]]
+
+        if drop_gender:
+            starting_column = 0 if drop_race else 2
+            self._gender_train = \
+                recover_categorical_encoding_for_seaphe_gender(self._X_train, starting_column)
+            self._gender_test = \
+                recover_categorical_encoding_for_seaphe_gender(self._X_test, starting_column)
+            # gender is in column 2 (only binary gender data available),
+            # unless race has been dropped already, then column 0
+            self._X_train = np.delete(self._X_train, np.s_[starting_column], axis=1)
+            self._X_test = np.delete(self._X_test, np.s_[starting_column], axis=1)
+            del[self._features[0 if drop_race else 2]]
 
         self._target_names = np.unique(target)
 

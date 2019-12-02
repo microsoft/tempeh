@@ -110,6 +110,7 @@ class CompasDatasets:
 
 class SEAPHEDatasets:
     LAWSCHOOL_PASSBAR = "lawschool_passbar"
+    LAWSCHOOL_GPA = "lawschool_gpa"
 
 
 class DatasetSizes:

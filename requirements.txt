@@ -5,8 +5,8 @@ numpy
 pandas
 requests
 scikit-learn
-scipy
-shap<0.32.1
+scipy<=1.3.3
+shap
 tensorflow
 -f https://download.pytorch.org/whl/torch_stable.html
 torch==1.2.0+cpu

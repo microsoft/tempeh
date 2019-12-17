@@ -5,8 +5,9 @@ numpy
 pandas
 requests
 scikit-learn
-scipy
-setuptools>=41.2.0
+# scipy 1.4.0 doesn't work with torch due to segfault right now
+scipy<1.4.0
+setuptools
 shap
 tensorflow
 -f https://download.pytorch.org/whl/torch_stable.html

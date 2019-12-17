@@ -3,6 +3,7 @@ keras
 lightgbm
 numpy
 pandas
+requests
 scikit-learn
 scipy
 shap

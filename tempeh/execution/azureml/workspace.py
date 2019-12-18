@@ -15,9 +15,15 @@ from azureml._base_sdk_common.common import resource_client_factory
 from azure.mgmt.resource.resources.models import ResourceGroup
 
 
-TENANT_ID = os.getenv("TENANT_ID")
-SERVICE_PRINCIPAL_ID = os.getenv("SERVICE_PRINCIPAL_ID")
-SERVICE_PRINCIPAL_PASSWORD = os.getenv("SERVICE_PRINCIPAL_PASSWORD")
+# Users may define their own variable names where they store the following data.
+# We use VARIABLE_NAME_* to identify where they stored it, and subsequently look it up.
+# The reason for these levels of indirection are mostly key restrictions:
+# Azure Key Vault doesn't allow underscores, Powershell doesn't allow dashes.
+# Furthermore, user-specific secrets in Key Vault should have use case specific names such as
+# <use-case>-sp-id as opposed to SERVICE_PRINCIPAL_ID.
+TENANT_ID = os.getenv(os.getenv("VARIABLE_NAME_TENANT_ID"))
+SERVICE_PRINCIPAL_ID = os.getenv(os.getenv("VARIABLE_NAME_SERVICE_PRINCIPAL_ID"))
+SERVICE_PRINCIPAL_PASSWORD = os.getenv(os.getenv("VARIABLE_NAME_SERVICE_PRINCIPAL_PASSWORD"))
 SUBSCRIPTION_ID = os.getenv("SUBSCRIPTION_ID")
 RESOURCE_GROUP_NAME = os.getenv("RESOURCE_GROUP_NAME")
 WORKSPACE_NAME = os.getenv("WORKSPACE_NAME")

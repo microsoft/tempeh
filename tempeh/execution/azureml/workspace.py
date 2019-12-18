@@ -39,19 +39,22 @@ logger = logging.getLogger(__file__)
 
 def get_workspace():
     logger.info("Logging in as service principal.")
-    auth = ServicePrincipalAuthentication(TENANT_ID, SERVICE_PRINCIPAL_ID, SERVICE_PRINCIPAL_PASSWORD)
+    auth = ServicePrincipalAuthentication(TENANT_ID,
+                                          SERVICE_PRINCIPAL_ID,
+                                          SERVICE_PRINCIPAL_PASSWORD)
     logger.info("Successfully logged in as service principal.")
 
     logger.info("Ensuring resource group {} exists.".format(RESOURCE_GROUP_NAME))
     resource_management_client = resource_client_factory(auth, SUBSCRIPTION_ID)
     resource_group_properties = ResourceGroup(location=WORKSPACE_LOCATION)
-    resource_management_client.resource_groups.create_or_update(WORKSPACE_NAME, resource_group_properties)
+    resource_management_client.resource_groups.create_or_update(WORKSPACE_NAME,
+                                                                resource_group_properties)
     logger.info("Ensured resource group {} exists.".format(RESOURCE_GROUP_NAME))
 
     logger.info("Ensuring workspace {} exists.".format(WORKSPACE_NAME))
     workspace = Workspace.create(name=WORKSPACE_NAME, auth=auth, subscription_id=SUBSCRIPTION_ID,
-                                resource_group=RESOURCE_GROUP_NAME, location=WORKSPACE_LOCATION,
-                                create_resource_group=False, exist_ok=True,
-                                default_cpu_compute_target=COMPUTE_TARGET_CONFIG)
+                                 resource_group=RESOURCE_GROUP_NAME, location=WORKSPACE_LOCATION,
+                                 create_resource_group=False, exist_ok=True,
+                                 default_cpu_compute_target=COMPUTE_TARGET_CONFIG)
     logger.info("Ensured workspace {} exists.".format(WORKSPACE_NAME))
     return workspace

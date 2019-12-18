@@ -23,6 +23,7 @@ setuptools.setup(
         "numpy",
         "pandas",
         "pytest",
+        "requests",
         "scipy",
         "shap",
         "scikit-learn",

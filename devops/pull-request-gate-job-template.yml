@@ -28,6 +28,12 @@ jobs:
       versionSpec: '$(PyVer)' 
       addToPath: true
 
+  - script: pip install --upgrade pip
+    displayName: 'Upgrade pip to latest version'
+  
+  - script: pip install --upgrade setuptools
+    displayName: 'Upgrade setuptools'
+
   - script: pip install -r requirements.txt
     displayName: 'Install required packages'
 

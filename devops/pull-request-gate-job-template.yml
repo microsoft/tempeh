@@ -1,7 +1,7 @@
 parameters:
   name: ''
   vmImage: ''
-  pyVersions: [3.6, 3.7]  # shap isn't installable in 3.5 on ADO right now
+  pyVersions: [3.5, 3.6, 3.7]
   datasets: ["boston_sklearn", "iris_sklearn", "adult_uci", "lawschool_passbar", "lawschool_gpa"]
   models: ["rbm_svm", "decision_tree_classifier"]
 
@@ -27,6 +27,12 @@ jobs:
     inputs:
       versionSpec: '$(PyVer)' 
       addToPath: true
+
+  - script: pip install --upgrade pip
+    displayName: 'Upgrade pip to latest version'
+  
+  - script: pip install --upgrade setuptools
+    displayName: 'Upgrade setuptools'
 
   - script: pip install -r requirements.txt
     displayName: 'Install required packages'

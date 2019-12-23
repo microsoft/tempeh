@@ -10,7 +10,8 @@ def configure_environment(workspace, wheel_file=None):
 
     # add private pip wheel to blob if provided
     if wheel_file:
-        private_pkg = environment.add_private_pip_wheel(workspace, file_path=wheel_file, exist_ok=True)
+        private_pkg = environment.add_private_pip_wheel(workspace, file_path=wheel_file,
+                                                        exist_ok=True)
         environment.python.conda_dependencies.add_pip_package(private_pkg)
 
     # add azureml-sdk to log metrics

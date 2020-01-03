@@ -6,7 +6,7 @@ import numpy as np
 
 from .base_wrapper import BasePerformanceDatasetWrapper
 from .uci_dataset_cleaner import bank_data_parser, bank_data_additional_parser, car_eval_parser, \
-    adult_data_parser
+    adult_data_parser, communities_parser
 from tempeh.constants import FeatureType, Tasks, DataTypes, UCIDatasets, ClassVars  # noqa
 
 
@@ -22,6 +22,7 @@ class UCIPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):
         UCIDatasets.ADULT: (adult_data_parser, "y", [FeatureType.CONTINUOUS] +
                             [FeatureType.NOMINAL] * 7 + [FeatureType.CONTINUOUS] * 3 +
                             [FeatureType.NOMINAL]),
+        UCIDatasets.COMMUNITIES: (communities_parser, 'y', [FeatureType.CONTINUOUS] * 102)
     }
 
     metadata_map = {
@@ -29,6 +30,7 @@ class UCIPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):
         UCIDatasets.BANK_ADD: (Tasks.BINARY, DataTypes.TABULAR, (41188, 63)),
         UCIDatasets.CAR: (Tasks.MULTICLASS, DataTypes.TABULAR, (1728, 21)),
         UCIDatasets.ADULT: (Tasks.BINARY, DataTypes.TABULAR, (32561, 13)),
+        UCIDatasets.COMMUNITIES: (Tasks.REGRESSION, DataTypes.TABULAR, (1994, 102)),
     }
 
     load_function = None
@@ -39,7 +41,13 @@ class UCIPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):
         """Initializes the UCI dataset """
 
         bunch = type(self).load_function()
-        target = bunch[self._target_col].astype(int)
+
+        if np.isnan(bunch[self._target_col]).sum() > 0:
+            raise Exception("NaN in array")
+        if self.task != Tasks.REGRESSION:
+            target = bunch[self._target_col].astype(int)
+        else:
+            target = bunch[self._target_col]
         bunch.drop(self._target_col, axis=1, inplace=True)
         bunch = bunch.astype(float)
 

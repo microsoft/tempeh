@@ -99,3 +99,12 @@ def adult_data_parser():
     adult_dataset = shap.datasets.adult()
     # hack to put target column into the same dataframe
     return pd.concat((adult_dataset[0], pd.DataFrame(adult_dataset[1], columns=["y"])), axis=1)
+
+
+def communities_parser():
+    communities_dataset = shap.datasets.communitiesandcrime()
+    # hack to put target column into the same dataframe
+    return pd.concat((communities_dataset[0],
+                      pd.DataFrame(communities_dataset[1], columns=["y"],
+                                   index=communities_dataset[0].index)),
+                     axis=1)

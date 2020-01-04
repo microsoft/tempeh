@@ -2,8 +2,8 @@ parameters:
   name: ''
   vmImage: ''
   pyVersions: [3.5, 3.6, 3.7]
-  datasets: ["boston_sklearn", "iris_sklearn", "adult_uci", "lawschool_passbar", "lawschool_gpa"]
-  models: ["rbm_svm", "decision_tree_classifier"]
+  datasets: ["boston_sklearn", "iris_sklearn", "adult_uci", "lawschool_passbar", "lawschool_gpa", "communities_uci"]
+  models: ["linear_svm", "rbm_svm", "logistic", "ridge", "decision_tree_classifier"]
 
 jobs:
 - job: ${{ parameters.name }}

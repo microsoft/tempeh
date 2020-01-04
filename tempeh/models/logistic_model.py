@@ -21,8 +21,7 @@ class LogisticModelWrapper(BaseModelWrapper, ExplainableMixin):
     def __init__(self):
         """Initializes the logistic regression wrapper.
         """
-
-        l_args = self._l_args if self._l_args is not None else {ModelParams.RANDOM_STATE: 777}
+        l_args = self.l_args if self.l_args is not None else {ModelParams.RANDOM_STATE: 777}
         model = LogisticRegression(**l_args)
 
         super().__init__(model)

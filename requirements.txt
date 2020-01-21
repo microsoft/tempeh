@@ -1,6 +1,7 @@
 # Required for tempeh
 keras
-lightgbm
+# TODO: add lightgbm back once it's installable with pip 20.0+
+# lightgbm
 numpy
 pandas
 requests

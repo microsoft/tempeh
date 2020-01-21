@@ -8,13 +8,13 @@ logger = logging.getLogger(__file__)
 
 try:
     from xgboost import XGBRegressor, XGBClassifier
-except:
+except ImportError:
     logger.debug("No module named 'xgboost'. If you want to use xgboost with tempeh please "
                  "install xgboost separately first.")
 
-from .base_model import BaseModelWrapper, ExplainableMixin
+from .base_model import BaseModelWrapper, ExplainableMixin  # noqa: E402
 
-from tempeh.constants import ModelParams, Tasks, DataTypes, Algorithms  # noqa
+from tempeh.constants import ModelParams, Tasks, DataTypes, Algorithms  # noqa: E402
 
 
 class XGBoostClassifierWrapper(BaseModelWrapper, ExplainableMixin):

@@ -7,14 +7,14 @@ import logging
 logger = logging.getLogger(__file__)
 
 try:
-    from lightgbm import LGBMRegressor, LGBMClassifier
-except ModuleNotFoundError:
+    from lightgbm import LGBMRegressor, LGBMClassifier  # noqa: E402
+except ImportError:
     logger.debug("No module named 'lightgbm'. If you want to use lightgbm with tempeh please "
                  "install lightgbm separately first.")
 
-from .base_model import BaseModelWrapper, ExplainableMixin
+from .base_model import BaseModelWrapper, ExplainableMixin  # noqa: E402
 
-from tempeh.constants import ModelParams, Tasks, DataTypes, Algorithms  # noqa
+from tempeh.constants import ModelParams, Tasks, DataTypes, Algorithms  # noqa: E402
 
 
 class LightGBMClassifierWrapper(BaseModelWrapper, ExplainableMixin):

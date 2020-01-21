@@ -13,6 +13,7 @@ from tempeh.constants import FeatureType, Tasks, DataTypes, ClassVars, BlobDatas
 
 class BlobPerformanceDatasetWrapper(BasePerformanceDatasetWrapper):
     """Blob Datasets"""
+
     dataset_map = {BlobDatasets.MSX_SMALL: (create_msx_small, 58083 * [FeatureType.NOMINAL]),
                    BlobDatasets.MSX_BIG: (create_msx_big, 82871 * [FeatureType.NOMINAL])}
 

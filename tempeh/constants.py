@@ -132,6 +132,7 @@ class LightGBMParams:
 
 class DatasetConstants(object):
     """Dataset related constants."""
+
     CATEGORICAL = 'categorical'
     CLASSES = 'classes'
     FEATURES = 'features'

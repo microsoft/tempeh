@@ -18,7 +18,6 @@ setuptools.setup(
     url="https://github.com/microsoft/tempeh",
     packages=setuptools.find_packages(),
     install_requires=[
-        "lightgbm",
         "memory_profiler",
         "numpy",
         "pandas",

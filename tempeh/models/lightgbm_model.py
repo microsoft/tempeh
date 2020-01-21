@@ -3,7 +3,15 @@
 
 """Defines a model class for classification and regression using LightGBM Framework"""
 
-from lightgbm import LGBMRegressor, LGBMClassifier
+import logging
+logger = logging.getLogger(__file__)
+
+try:
+    from lightgbm import LGBMRegressor, LGBMClassifier
+except ModuleNotFoundError:
+    logger.debug("No module named 'lightgbm'. If you want to use lightgbm with tempeh please "
+                 "install lightgbm separately first.")
+
 from .base_model import BaseModelWrapper, ExplainableMixin
 
 from tempeh.constants import ModelParams, Tasks, DataTypes, Algorithms  # noqa

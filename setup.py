@@ -18,7 +18,6 @@ setuptools.setup(
     url="https://github.com/microsoft/tempeh",
     packages=setuptools.find_packages(),
     install_requires=[
-        "lightgbm",
         "memory_profiler",
         "numpy",
         "pandas",
@@ -26,8 +25,7 @@ setuptools.setup(
         "requests",
         "scipy",
         "shap",
-        "scikit-learn",
-        "xgboost"
+        "scikit-learn"
     ],
     classifiers=(
         "Programming Language :: Python :: 3",

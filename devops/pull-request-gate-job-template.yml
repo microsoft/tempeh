@@ -28,7 +28,7 @@ jobs:
       versionSpec: '$(PyVer)' 
       addToPath: true
 
-  - script: pip install --upgrade pip
+  - script: python -m pip install --upgrade pip
     displayName: 'Upgrade pip to latest version'
   
   - script: pip install --upgrade setuptools

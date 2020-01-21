@@ -2,7 +2,7 @@
 # Licensed under the MIT License.
 
 """Defines a dataset wrapper for the performance testing framework
-   to test on different model/dataset permutations.
+to test on different model/dataset permutations.
 """
 
 import pandas as pd

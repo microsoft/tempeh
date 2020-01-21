@@ -3,7 +3,15 @@
 
 """Defines a model class for classification and regression using XGBoost Framework"""
 
-from xgboost import XGBRegressor, XGBClassifier
+import logging
+logger = logging.getLogger(__file__)
+
+try:
+    from xgboost import XGBRegressor, XGBClassifier
+except:
+    logger.debug("No module named 'xgboost'. If you want to use xgboost with tempeh please "
+                 "install xgboost separately first.")
+
 from .base_model import BaseModelWrapper, ExplainableMixin
 
 from tempeh.constants import ModelParams, Tasks, DataTypes, Algorithms  # noqa

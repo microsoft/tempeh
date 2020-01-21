@@ -25,8 +25,7 @@ setuptools.setup(
         "requests",
         "scipy",
         "shap",
-        "scikit-learn",
-        "xgboost"
+        "scikit-learn"
     ],
     classifiers=(
         "Programming Language :: Python :: 3",

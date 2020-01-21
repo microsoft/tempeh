@@ -56,7 +56,7 @@ Common issues
 
 - If you're using a 32-bit Python version you might need to switch to a 64-bit Python version first to successfully install tensorflow.
 - If the installation of `torch` fails try using the recommendation from the [pytorch website](https://pytorch.org/get-started/locally/) for stable versions without CUDA for your python version on your operating system.
-- If the installation of `lightgbm` fails try to use a pip version less than 20.0 until their bug is resolved.
+- If the installation of `lightgbm` or `xgboost` fails try to use a pip version less than 20.0 until their bug is resolved.
 </details>
 
 ## Structure

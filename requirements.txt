@@ -1,6 +1,8 @@
 # Required for tempeh
 keras
-lightgbm
+# TODO: add lightgbm and xgboost back once it's installable with pip 20.0+
+# lightgbm
+# xgboost
 numpy
 pandas
 requests
@@ -12,7 +14,7 @@ shap
 tensorflow
 -f https://download.pytorch.org/whl/torch_stable.html
 torch==1.2.0+cpu
-xgboost
+
 
 # Required for environment
 autopep8

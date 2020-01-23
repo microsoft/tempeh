@@ -162,20 +162,10 @@ class BasePerformanceDatasetWrapper(object):
                 pd.Series(sensitive_features_test, name=name)
 
         # for multiple features we need to merge the individual columns together before returning.
-        return _merge_columns_from_dict_into_matrix(sensitive_features_train,
-                                                    output_format=format), \
-            _merge_columns_from_dict_into_matrix(sensitive_features_test,
-                                                 output_format=format)
+        sensitive_features_train = pd.DataFrame(sensitive_features_train)
+        sensitive_features_test = pd.DataFrame(sensitive_features_test)
 
-
-def _merge_columns_from_dict_into_matrix(column_dict, output_format=np.ndarray):
-    array = np.concatenate(column_dict.values(), axis=1)
-
-    if output_format == np.ndarray:
-        return array
-
-    if output_format != pd.DataFrame:
-        raise Exception("Merging columns into a matrix is only supported with output_format "
-                        "numpy.ndarray and pandas.DataFrame.")
-
-    return pd.DataFrame(array, columns=column_dict.keys())
+        if format == pd.DataFrame:
+            return sensitive_features_train, sensitive_features_test
+        
+        return sensitive_features_train.values, sensitive_features_test.values

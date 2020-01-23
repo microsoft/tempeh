@@ -19,13 +19,13 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=[
         "memory_profiler",
-        "numpy",
+        "numpy>=1.18.1",
         "pandas",
         "pytest",
         "requests",
         "scipy",
         "shap",
-        "scikit-learn"
+        "scikit-learn>=0.22.1"
     ],
     classifiers=(
         "Programming Language :: Python :: 3",

@@ -3,10 +3,10 @@ keras
 # TODO: add lightgbm and xgboost back once it's installable with pip 20.0+
 # lightgbm
 # xgboost
-numpy
+numpy>=1.18.1
 pandas
 requests
-scikit-learn
+scikit-learn0.22.1
 # scipy 1.4.0 doesn't work with torch due to segfault right now
 scipy<1.4.0
 setuptools

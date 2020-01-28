@@ -158,8 +158,8 @@ class BasePerformanceDatasetWrapper(object):
 
         if format == pd.Series:
             # we can assume that there's only one feature in this case
-            return pd.Series(sensitive_features_train, name=name), \
-                pd.Series(sensitive_features_test, name=name)
+            return pd.Series(list(sensitive_features_train.values())[0], name=names[0]), \
+                pd.Series(list(sensitive_features_test.values())[0], name=names[0])
 
         # for multiple features we need to merge the individual columns together before returning.
         sensitive_features_train = pd.DataFrame(sensitive_features_train)

@@ -91,7 +91,6 @@ Models (`models/` directory) wrap different machine learning models.
 
 In alphabetical order:
 
-- [Eduardo de Leon](https://github.com/eedeleon)
 - [Ilya Matiach](https://github.com/imatiach-msft)
 - [Roman Lutz](https://github.com/romanlutz)
 

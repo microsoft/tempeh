@@ -97,6 +97,7 @@ class UCIDatasets:
     BANK = 'bank'
     BANK_ADD = 'bank-additional'
     ADULT = 'adult'
+    COMMUNITIES = 'communities'
 
 
 class BlobDatasets:

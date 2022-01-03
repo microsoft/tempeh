@@ -23,7 +23,7 @@ class RidgeModelWrapper(BaseModelWrapper, ExplainableMixin):
         :param ridge_args: args to pass to sklearn
         :type ridge_args: dict or None
         """
-        r_args = self._r_args if self._r_args is not None else {ModelParams.RANDOM_STATE: 777}
+        r_args = self.r_args if self.r_args is not None else {ModelParams.RANDOM_STATE: 777}
 
         model = Ridge(**r_args)
 

@@ -26,6 +26,7 @@ datasets = {
     'bank_add_uci': UCIPerformanceDatasetWrapper.generate_dataset_class('bank-additional'),
     'car_uci': UCIPerformanceDatasetWrapper.generate_dataset_class('car-eval'),
     'adult_uci': UCIPerformanceDatasetWrapper.generate_dataset_class('adult'),
+    'communities_uci': UCIPerformanceDatasetWrapper.generate_dataset_class('communities'),
     'msx_small_blob': BlobPerformanceDatasetWrapper.generate_dataset_class('msx_small'),
     'msx_big_blob': BlobPerformanceDatasetWrapper.generate_dataset_class('msx_big'),
     'medium_cancer': SKLearnPerformanceDatasetWrapper.generate_dataset_class('cancer', nrows=DatasetSizes.MEDIUM),
